@@ -1,0 +1,142 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --primary: 214 100% 40%;
+    --secondary: 168 75% 40%;
+    --accent: 24 94% 53%;
+    --success: 142 70% 45%;
+    --warning: 38 92% 50%;
+    --error: 0 84% 60%;
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+  }
+
+  html {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  body {
+    @apply bg-white text-gray-900 min-h-screen;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold leading-tight text-gray-900;
+  }
+
+  h1 {
+    @apply text-3xl md:text-4xl;
+  }
+
+  h2 {
+    @apply text-2xl md:text-3xl;
+  }
+
+  h3 {
+    @apply text-xl md:text-2xl;
+  }
+
+  a {
+    @apply text-blue-700 hover:text-blue-800 transition-colors;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors 
+    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50
+    disabled:pointer-events-none ring-offset-white;
+  }
+
+  .btn-primary {
+    @apply bg-blue-800 text-white hover:bg-blue-900 h-10 px-4 py-2;
+  }
+
+  .btn-secondary {
+    @apply bg-orange-500 text-white hover:bg-orange-600 h-10 px-4 py-2;
+  }
+
+  .btn-outline {
+    @apply border border-slate-200 bg-transparent hover:bg-slate-100 h-10 px-4 py-2;
+  }
+
+  .card {
+    @apply rounded-lg border border-slate-200 bg-white shadow-sm transition-all hover:shadow;
+  }
+
+  .form-control {
+    @apply flex flex-col space-y-1.5;
+  }
+
+  .input {
+    @apply flex h-10 w-full rounded-md border border-slate-300 bg-transparent px-3 py-2 text-sm 
+    placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-400 
+    focus:border-blue-400 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .select {
+    @apply flex h-10 w-full rounded-md border border-slate-300 bg-transparent px-3 py-2 text-sm 
+    focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 
+    disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .label {
+    @apply text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70;
+  }
+}
+
+@layer components {
+  .page-container {
+    @apply container mx-auto px-4 py-8;
+  }
+
+  .section-title {
+    @apply text-2xl font-bold mb-6 text-gray-900 relative;
+  }
+
+  .section-title:after {
+    @apply content-[''] absolute bottom-0 left-0 w-16 h-1 bg-orange-500 rounded-full;
+  }
+
+  .nav-link {
+    @apply text-gray-700 hover:text-blue-800 px-4 py-2 rounded-md text-sm font-medium;
+  }
+
+  .nav-link.active {
+    @apply bg-blue-50 text-blue-800;
+  }
+
+  .cycle-card {
+    @apply card p-6 hover:border-blue-500 hover:translate-y-[-4px] transition-all;
+  }
+
+  .class-card {
+    @apply card p-5 hover:border-blue-500 flex flex-col items-center justify-center;
+  }
+
+  .subject-card {
+    @apply card p-4 flex items-center space-x-3 hover:border-blue-500;
+  }
+
+  .lesson-item {
+    @apply border-b border-gray-100 py-3 px-4 flex justify-between items-center hover:bg-blue-50 transition-colors;
+  }
+
+  .pdf-container {
+    @apply border rounded-lg bg-gray-50 p-4 h-[600px] overflow-hidden;
+  }
+
+  .admin-card {
+    @apply card p-6 flex flex-col h-full;
+  }
+
+  .admin-card-title {
+    @apply text-xl font-semibold mb-2;
+  }
+
+  .admin-stat {
+    @apply text-3xl font-bold text-blue-800;
+  }
+}
