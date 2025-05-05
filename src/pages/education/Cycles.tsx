@@ -4,6 +4,14 @@ import { Book, GraduationCap, ArrowRight } from 'lucide-react';
 import { useContent } from '../../contexts/ContentContext';
 import Button from '../../components/ui/Button';
 import Card, { CardContent, CardHeader, CardTitle } from '../../components/ui/Card';
+import Logo from '../components/common/Logo';
+
+// Sans tagline
+<Logo />
+
+// Avec tagline
+<Logo showTagline />
+
 
 const Cycles: React.FC = () => {
   const { cycles } = useContent();

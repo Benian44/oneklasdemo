@@ -4,6 +4,14 @@ import { Phone, Shield, Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
+import Logo from '../components/common/Logo';
+
+// Sans tagline
+<Logo />
+
+// Avec tagline
+<Logo showTagline />
+
 
 const Login: React.FC = () => {
   const [phone, setPhone] = useState('');

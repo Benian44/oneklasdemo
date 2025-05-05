@@ -1,5 +1,13 @@
 // Educational content data
 import { Cycle, Class, Subject, Lesson } from '../contexts/ContentContext';
+import Logo from '../components/common/Logo';
+
+// Sans tagline
+<Logo />
+
+// Avec tagline
+<Logo showTagline />
+
 
 // Mock data for the educational platform
 export const educationalContent = {

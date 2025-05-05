@@ -2,6 +2,14 @@ import React, { useState } from 'react';
 import { CheckCircle, Users, Home, Clock, CreditCard } from 'lucide-react';
 import Button from '../../components/ui/Button';
 import Card, { CardContent, CardHeader, CardTitle } from '../../components/ui/Card';
+import Logo from '../components/common/Logo';
+
+// Sans tagline
+<Logo />
+
+// Avec tagline
+<Logo showTagline />
+
 
 interface TutoringOption {
   id: string;

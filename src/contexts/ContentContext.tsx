@@ -1,5 +1,13 @@
 import React, { createContext, useState, useContext } from 'react';
 import { educationalContent } from '../data/educationalContent';
+import Logo from '../components/common/Logo';
+
+// Sans tagline
+<Logo />
+
+// Avec tagline
+<Logo showTagline />
+
 
 // Types
 export interface Cycle {

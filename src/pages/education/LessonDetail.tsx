@@ -3,6 +3,14 @@ import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, FileText, Download, BookOpen, Dumbbell } from 'lucide-react';
 import { useContent } from '../../contexts/ContentContext';
 import Button from '../../components/ui/Button';
+import Logo from '../components/common/Logo';
+
+// Sans tagline
+<Logo />
+
+// Avec tagline
+<Logo showTagline />
+
 
 const LessonDetail: React.FC = () => {
   const { lessonId } = useParams<{ lessonId: string }>();
