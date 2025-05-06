@@ -1,13 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Logo from '../components/common/Logo';
-
-// Sans tagline
-<Logo />
-
-// Avec tagline
-<Logo showTagline />
-
 
 // Types
 interface User {
@@ -15,20 +7,22 @@ interface User {
   firstName: string;
   lastName: string;
   phone: string;
+  password: string;
   dateOfBirth: string;
   city: string;
   address: string;
   cycleId: string;
   classId: string;
   isAdmin?: boolean;
+  createdAt: string;
 }
 
 interface AuthContextType {
   currentUser: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  login: (phone: string, otp?: string) => Promise<boolean>;
-  register: (userData: Omit<User, 'id'>) => Promise<boolean>;
+  login: (phone: string, password: string) => Promise<boolean>;
+  register: (userData: Omit<User, 'id' | 'isAdmin' | 'createdAt'>) => Promise<boolean>;
   logout: () => void;
   updateUser: (data: Partial<User>) => void;
 }
@@ -56,33 +50,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   // Login function
-  const login = async (phone: string, otp?: string): Promise<boolean> => {
+  const login = async (phone: string, password: string): Promise<boolean> => {
     setIsLoading(true);
     try {
-      // For demo purposes, we're simulating API call
-      // In a real app, this would validate with a backend
-      
       // Simulate API delay
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      // For demo, we'll allow any login with basic validation
-      if (phone.length < 8) {
-        throw new Error('Invalid phone number');
-      }
+      // Get stored users
+      const storedUsers = JSON.parse(localStorage.getItem('oneklas_users') || '[]');
+      const user = storedUsers.find((u: User) => u.phone === phone && u.password === password);
       
-      // Mock user for demonstration
-      const user: User = {
-        id: Math.random().toString(36).substring(2, 9),
-        firstName: 'Demo',
-        lastName: 'User',
-        phone,
-        dateOfBirth: '2000-01-01',
-        city: 'Abidjan',
-        address: '123 Main St',
-        cycleId: '1', // College by default
-        classId: '1', // 6e by default
-        isAdmin: phone === '0000000000' // Demo admin account
-      };
+      if (!user) {
+        setIsLoading(false);
+        return false;
+      }
       
       setCurrentUser(user);
       localStorage.setItem('oneklas_user', JSON.stringify(user));
@@ -96,26 +77,42 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   // Register function
-  const register = async (userData: Omit<User, 'id'>): Promise<boolean> => {
+  const register = async (userData: Omit<User, 'id' | 'isAdmin' | 'createdAt'>): Promise<boolean> => {
     setIsLoading(true);
     try {
       // Simulate API delay
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      // Create new user with ID
+      // Get stored users
+      const storedUsers = JSON.parse(localStorage.getItem('oneklas_users') || '[]');
+      
+      // Check if phone number already exists
+      if (storedUsers.some((u: User) => u.phone === userData.phone)) {
+        throw new Error('Ce numéro de téléphone est déjà enregistré');
+      }
+      
+      // Create new user
       const newUser: User = {
         ...userData,
-        id: Math.random().toString(36).substring(2, 9)
+        id: Math.random().toString(36).substring(2, 9),
+        isAdmin: false,
+        createdAt: new Date().toISOString()
       };
       
+      // Save to local storage
+      storedUsers.push(newUser);
+      localStorage.setItem('oneklas_users', JSON.stringify(storedUsers));
+      
+      // Log in the new user
       setCurrentUser(newUser);
       localStorage.setItem('oneklas_user', JSON.stringify(newUser));
+      
       setIsLoading(false);
       return true;
     } catch (error) {
       console.error('Registration error:', error);
       setIsLoading(false);
-      return false;
+      throw error;
     }
   };
 
@@ -132,6 +129,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const updatedUser = { ...currentUser, ...data };
       setCurrentUser(updatedUser);
       localStorage.setItem('oneklas_user', JSON.stringify(updatedUser));
+      
+      // Update user in users list
+      const storedUsers = JSON.parse(localStorage.getItem('oneklas_users') || '[]');
+      const updatedUsers = storedUsers.map((u: User) => 
+        u.id === updatedUser.id ? updatedUser : u
+      );
+      localStorage.setItem('oneklas_users', JSON.stringify(updatedUsers));
     }
   };
 

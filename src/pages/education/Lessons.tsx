@@ -3,14 +3,6 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { ArrowLeft, FileText, Download, CheckCircle } from 'lucide-react';
 import { useContent } from '../../contexts/ContentContext';
 import Button from '../../components/ui/Button';
-import Logo from '../components/common/Logo';
-
-// Sans tagline
-<Logo />
-
-// Avec tagline
-<Logo showTagline />
-
 
 const Lessons: React.FC = () => {
   const { subjectId } = useParams<{ subjectId: string }>();

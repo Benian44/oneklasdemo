@@ -3,14 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X, User, LogOut, BookOpen, GraduationCap, Users, Settings } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import Button from '../ui/Button';
-import Logo from '../components/common/Logo';
-
-// Sans tagline
-<Logo />
-
-// Avec tagline
-<Logo showTagline />
-
 
 const Header: React.FC = () => {
   const { isAuthenticated, currentUser, logout } = useAuth();

@@ -4,14 +4,6 @@ import { ArrowLeft, BookOpen, Languages, Calculator, FlaskRound as Flask, Micros
 import { useContent } from '../../contexts/ContentContext';
 import Button from '../../components/ui/Button';
 import Card from '../../components/ui/Card';
-import Logo from '../components/common/Logo';
-
-// Sans tagline
-<Logo />
-
-// Avec tagline
-<Logo showTagline />
-
 
 const Subjects: React.FC = () => {
   const { classId } = useParams<{ classId: string }>();

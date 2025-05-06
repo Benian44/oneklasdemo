@@ -3,14 +3,6 @@ import { Outlet, Navigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import Header from '../components/common/Header';
 import Footer from '../components/common/Footer';
-import Logo from '../components/common/Logo';
-
-// Sans tagline
-<Logo />
-
-// Avec tagline
-<Logo showTagline />
-
 
 const MainLayout: React.FC = () => {
   const { isAuthenticated, isLoading } = useAuth();

@@ -1,61 +1,37 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Phone, Shield, Eye, EyeOff } from 'lucide-react';
+import { Phone, Lock, Eye, EyeOff, Shield } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
-import Logo from '../components/common/Logo';
-
-// Sans tagline
-<Logo />
-
-// Avec tagline
-<Logo showTagline />
-
 
 const Login: React.FC = () => {
   const [phone, setPhone] = useState('');
-  const [otp, setOtp] = useState('');
-  const [showOtp, setShowOtp] = useState(false);
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const { login, isLoading } = useAuth();
   const navigate = useNavigate();
 
-  const handleSendOtp = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!phone) {
-      setError('Veuillez entrer votre numéro de téléphone');
-      return;
-    }
-
-    // For demo, just show OTP field
-    setShowOtp(true);
-    setError('');
-  };
-
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!phone) {
-      setError('Veuillez entrer votre numéro de téléphone');
+    setError(''); // Clear any previous errors
+    
+    if (!phone || !password) {
+      setError('Veuillez remplir tous les champs');
       return;
     }
 
     try {
-      const success = await login(phone, otp);
+      const success = await login(phone, password);
       if (success) {
         navigate('/');
       } else {
-        setError('Identifiants incorrects. Veuillez réessayer.');
+        setError('Numéro de téléphone ou mot de passe incorrect');
       }
     } catch (err) {
       setError('Une erreur est survenue. Veuillez réessayer.');
-      console.error('Login error:', err);
     }
-  };
-
-  const toggleShowPassword = () => {
-    setShowPassword(!showPassword);
   };
 
   return (
@@ -88,7 +64,7 @@ const Login: React.FC = () => {
             </div>
           )}
 
-          <form className="space-y-6" onSubmit={showOtp ? handleLogin : handleSendOtp}>
+          <form className="space-y-6" onSubmit={handleLogin}>
             <Input
               id="phone"
               type="tel"
@@ -101,26 +77,25 @@ const Login: React.FC = () => {
               autoFocus
             />
 
-            {showOtp && (
-              <Input
-                id="otp"
-                type={showPassword ? "text" : "password"}
-                label="Code de vérification (OTP)"
-                value={otp}
-                onChange={(e) => setOtp(e.target.value)}
-                placeholder="Entrez le code reçu par SMS"
-                leftIcon={<Shield className="h-5 w-5" />}
-                rightIcon={
-                  <button type="button" onClick={toggleShowPassword} className="focus:outline-none">
-                    {showPassword ? (
-                      <EyeOff className="h-5 w-5" />
-                    ) : (
-                      <Eye className="h-5 w-5" />
-                    )}
-                  </button>
-                }
-              />
-            )}
+            <Input
+              id="password"
+              type={showPassword ? "text" : "password"}
+              label="Mot de passe"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Entrez votre mot de passe"
+              leftIcon={<Lock className="h-5 w-5" />}
+              rightIcon={
+                <button type="button" onClick={() => setShowPassword(!showPassword)} className="focus:outline-none">
+                  {showPassword ? (
+                    <EyeOff className="h-5 w-5" />
+                  ) : (
+                    <Eye className="h-5 w-5" />
+                  )}
+                </button>
+              }
+              required
+            />
 
             <div>
               <Button
@@ -129,7 +104,7 @@ const Login: React.FC = () => {
                 isLoading={isLoading}
                 fullWidth
               >
-                {showOtp ? "Se connecter" : "Envoyer le code"}
+                Se connecter
               </Button>
             </div>
           </form>
@@ -147,8 +122,8 @@ const Login: React.FC = () => {
             </div>
 
             <div className="mt-6 text-sm text-center text-gray-600">
-              <p>Pour la démo, entrez n'importe quel numéro de téléphone valide.</p>
-              <p className="mt-1">Utilisez "0000000000" pour un compte administrateur.</p>
+              <p>Pour la démo, créez un compte ou utilisez :</p>
+              <p className="mt-1">Admin : 0000000000 / password</p>
             </div>
           </div>
         </div>

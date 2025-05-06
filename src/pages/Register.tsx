@@ -1,18 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { User, Calendar, MapPin, Phone, Home, GraduationCap, ChevronDown } from 'lucide-react';
+import { User, Calendar, MapPin, Phone, Home, GraduationCap, ChevronDown, Lock, Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useContent } from '../contexts/ContentContext';
 import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
-import Logo from '../components/common/Logo';
-
-// Sans tagline
-<Logo />
-
-// Avec tagline
-<Logo showTagline />
-
 
 const Register: React.FC = () => {
   const { register, isLoading } = useAuth();
@@ -27,10 +19,14 @@ const Register: React.FC = () => {
     city: '',
     address: '',
     phone: '',
+    password: '',
+    confirmPassword: '',
     cycleId: '',
     classId: ''
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   
   // UI state
   const [selectedCycleClasses, setSelectedCycleClasses] = useState<any[]>([]);
@@ -69,6 +65,9 @@ const Register: React.FC = () => {
     if (!formData.city) newErrors.city = 'La ville est requise';
     if (!formData.address.trim()) newErrors.address = 'L\'adresse est requise';
     if (!formData.phone.trim()) newErrors.phone = 'Le numéro de téléphone est requis';
+    if (!formData.password) newErrors.password = 'Le mot de passe est requis';
+    if (formData.password.length < 6) newErrors.password = 'Le mot de passe doit contenir au moins 6 caractères';
+    if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = 'Les mots de passe ne correspondent pas';
     if (!formData.cycleId) newErrors.cycleId = 'Veuillez sélectionner un cycle';
     if (!formData.classId) newErrors.classId = 'Veuillez sélectionner une classe';
     
@@ -83,7 +82,8 @@ const Register: React.FC = () => {
     if (!validateForm()) return;
     
     try {
-      const success = await register(formData);
+      const { confirmPassword, ...userData } = formData;
+      const success = await register(userData);
       if (success) {
         navigate('/');
       }
@@ -122,8 +122,8 @@ const Register: React.FC = () => {
           )}
 
           <form onSubmit={handleSubmit} className="p-6 space-y-6">
-            <div className="bg-blue-50 p-4 rounded-md mb-6">
-              <h3 className="text-lg font-semibold text-blue-800 mb-2">
+            <div className="bg-gray-50 p-4 rounded-md mb-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
                 Informations personnelles
               </h3>
               
@@ -176,11 +176,47 @@ const Register: React.FC = () => {
                   leftIcon={<Phone className="h-5 w-5" />}
                   required
                 />
+
+                <Input
+                  id="password"
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  label="Mot de passe"
+                  value={formData.password}
+                  onChange={handleChange}
+                  error={errors.password}
+                  placeholder="Minimum 6 caractères"
+                  leftIcon={<Lock className="h-5 w-5" />}
+                  rightIcon={
+                    <button type="button" onClick={() => setShowPassword(!showPassword)} className="focus:outline-none">
+                      {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                    </button>
+                  }
+                  required
+                />
+
+                <Input
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  type={showConfirmPassword ? "text" : "password"}
+                  label="Confirmer le mot de passe"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  error={errors.confirmPassword}
+                  placeholder="Confirmez votre mot de passe"
+                  leftIcon={<Lock className="h-5 w-5" />}
+                  rightIcon={
+                    <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="focus:outline-none">
+                      {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                    </button>
+                  }
+                  required
+                />
               </div>
             </div>
 
-            <div className="bg-blue-50 p-4 rounded-md mb-6">
-              <h3 className="text-lg font-semibold text-blue-800 mb-2">
+            <div className="bg-gray-50 p-4 rounded-md mb-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
                 Adresse
               </h3>
               
@@ -225,8 +261,8 @@ const Register: React.FC = () => {
               </div>
             </div>
 
-            <div className="bg-blue-50 p-4 rounded-md">
-              <h3 className="text-lg font-semibold text-blue-800 mb-2">
+            <div className="bg-gray-50 p-4 rounded-md">
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
                 Niveau scolaire
               </h3>
               

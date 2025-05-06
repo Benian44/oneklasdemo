@@ -4,14 +4,6 @@ import { GraduationCap, ArrowLeft, ArrowRight } from 'lucide-react';
 import { useContent } from '../../contexts/ContentContext';
 import Button from '../../components/ui/Button';
 import Card from '../../components/ui/Card';
-import Logo from '../components/common/Logo';
-
-// Sans tagline
-<Logo />
-
-// Avec tagline
-<Logo showTagline />
-
 
 const Classes: React.FC = () => {
   const { cycleId } = useParams<{ cycleId: string }>();
