@@ -31,6 +31,7 @@ export interface Lesson {
   description: string;
   courseUrl: string;
   exercisesUrl: string;
+  videoUrl: string; // Added video URL
 }
 
 interface ContentContextType {

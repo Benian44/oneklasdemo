@@ -246,7 +246,7 @@ export const educationalContent = {
     }
   ] as Subject[],
 
-  // Generate sample lessons (12 per subject)
+  // Generate sample lessons with video URLs
   lessons: Array(12 * 12).fill(null).map((_, index) => {
     const subjectId = Math.floor(index / 12) + 1;
     const lessonNumber = index % 12 + 1;
@@ -257,7 +257,8 @@ export const educationalContent = {
       title: `Leçon ${lessonNumber}`,
       description: `Chapitre ${lessonNumber} du cours`,
       courseUrl: `https://example.com/cours/sujet${subjectId}/lecon${lessonNumber}.pdf`,
-      exercisesUrl: `https://example.com/exercices/sujet${subjectId}/lecon${lessonNumber}.pdf`
+      exercisesUrl: `https://example.com/exercices/sujet${subjectId}/lecon${lessonNumber}.pdf`,
+      videoUrl: `https://www.youtube.com/embed/dQw4w9WgXcQ?si=example${subjectId}${lessonNumber}` // Example video URL
     };
   }) as Lesson[]
 };

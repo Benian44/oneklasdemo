@@ -2,6 +2,8 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // Types
+export type UserType = 'student' | 'parent' | 'teacher';
+
 interface User {
   id: string;
   firstName: string;
@@ -13,8 +15,14 @@ interface User {
   address: string;
   cycleId: string;
   classId: string;
+  userType: UserType;
   isAdmin?: boolean;
   createdAt: string;
+  // For parents
+  childrenIds?: string[];
+  // For teachers
+  subjectIds?: string[];
+  qualifications?: string;
 }
 
 interface AuthContextType {
@@ -49,13 +57,41 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     checkAuth();
   }, []);
 
+  // Initialize admin user if not exists
+  useEffect(() => {
+    const initializeAdmin = () => {
+      const storedUsers = JSON.parse(localStorage.getItem('oneklas_users') || '[]');
+      const adminExists = storedUsers.some((user: User) => user.isAdmin);
+
+      if (!adminExists) {
+        const adminUser: User = {
+          id: 'admin',
+          firstName: 'Admin',
+          lastName: 'OneKlas',
+          phone: '0000000000',
+          password: 'password',
+          dateOfBirth: '2000-01-01',
+          city: 'Abidjan',
+          address: 'Cocody',
+          cycleId: '',
+          classId: '',
+          userType: 'teacher',
+          isAdmin: true,
+          createdAt: new Date().toISOString()
+        };
+
+        storedUsers.push(adminUser);
+        localStorage.setItem('oneklas_users', JSON.stringify(storedUsers));
+      }
+    };
+
+    initializeAdmin();
+  }, []);
+
   // Login function
   const login = async (phone: string, password: string): Promise<boolean> => {
     setIsLoading(true);
     try {
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
       // Get stored users
       const storedUsers = JSON.parse(localStorage.getItem('oneklas_users') || '[]');
       const user = storedUsers.find((u: User) => u.phone === phone && u.password === password);
@@ -80,9 +116,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const register = async (userData: Omit<User, 'id' | 'isAdmin' | 'createdAt'>): Promise<boolean> => {
     setIsLoading(true);
     try {
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
       // Get stored users
       const storedUsers = JSON.parse(localStorage.getItem('oneklas_users') || '[]');
       

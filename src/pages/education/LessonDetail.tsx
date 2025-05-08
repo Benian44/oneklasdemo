@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, FileText, Download, BookOpen, Dumbbell } from 'lucide-react';
+import { ArrowLeft, FileText, Download, BookOpen, Dumbbell, Video } from 'lucide-react';
 import { useContent } from '../../contexts/ContentContext';
 import Button from '../../components/ui/Button';
 
@@ -9,7 +9,7 @@ const LessonDetail: React.FC = () => {
   const { getLessonById, getSubjectById } = useContent();
   
   // State to track active tab
-  const [activeTab, setActiveTab] = useState<'course' | 'exercises'>('course');
+  const [activeTab, setActiveTab] = useState<'course' | 'exercises' | 'video'>('course');
 
   // Get lesson data
   const lesson = lessonId ? getLessonById(lessonId) : undefined;
@@ -28,7 +28,7 @@ const LessonDetail: React.FC = () => {
 
   return (
     <div className="page-container">
-      {/* Breadcrumb - simplified for this demo */}
+      {/* Breadcrumb */}
       <Link to="#" onClick={() => window.history.back()} className="text-blue-700 hover:text-blue-800 flex items-center mb-6">
         <ArrowLeft className="h-4 w-4 mr-1" />
         Retour aux leçons
@@ -70,48 +70,74 @@ const LessonDetail: React.FC = () => {
             Exercices
           </div>
         </button>
+        <button
+          className={`py-3 px-5 border-b-2 ${
+            activeTab === 'video' 
+              ? 'border-blue-500 text-blue-600' 
+              : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+          } font-medium`}
+          onClick={() => setActiveTab('video')}
+        >
+          <div className="flex items-center">
+            <Video className="h-4 w-4 mr-2" />
+            Vidéo
+          </div>
+        </button>
       </div>
 
       {/* Tab Content */}
       <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
         <div className="flex justify-between items-center border-b border-gray-200 px-6 py-4">
           <h2 className="font-semibold text-gray-900">
-            {activeTab === 'course' ? 'Contenu du cours' : 'Exercices et devoirs'}
+            {activeTab === 'course' ? 'Contenu du cours' : 
+             activeTab === 'exercises' ? 'Exercices et devoirs' : 
+             'Vidéo explicative'}
           </h2>
-          <a
-            href={activeTab === 'course' ? lesson.courseUrl : lesson.exercisesUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn btn-outline text-blue-700 border-blue-200 hover:bg-blue-50"
-          >
-            <Download className="h-4 w-4 mr-2" />
-            Télécharger le PDF
-          </a>
+          {activeTab !== 'video' && (
+            <a
+              href={activeTab === 'course' ? lesson.courseUrl : lesson.exercisesUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-outline text-blue-700 border-blue-200 hover:bg-blue-50"
+            >
+              <Download className="h-4 w-4 mr-2" />
+              Télécharger le PDF
+            </a>
+          )}
         </div>
 
         <div className="p-6">
-          {/* PDF Viewer (placeholder) */}
-          <div className="pdf-container flex flex-col items-center justify-center bg-gray-100">
-            <div className="mb-4">
-              <FileText className="h-16 w-16 text-gray-400" />
+          {activeTab === 'video' ? (
+            <div className="aspect-w-16 aspect-h-9">
+              <iframe
+                src={lesson.videoUrl}
+                title={`Vidéo du cours : ${lesson.title}`}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full h-[500px] rounded-lg"
+              />
             </div>
-            <div className="text-center">
-              <h3 className="text-lg font-semibold mb-2">
-                {activeTab === 'course' ? 'Aperçu du cours' : 'Aperçu des exercices'}
-              </h3>
-              <p className="text-gray-600 mb-4">
-                Le contenu PDF serait affiché ici dans un environnement de production.
-              </p>
-              <Button variant="primary">
-                <Download className="h-4 w-4 mr-2" />
-                Télécharger le PDF
-              </Button>
+          ) : (
+            <div className="pdf-container flex flex-col items-center justify-center bg-gray-100">
+              <div className="mb-4">
+                <FileText className="h-16 w-16 text-gray-400" />
+              </div>
+              <div className="text-center">
+                <h3 className="text-lg font-semibold mb-2">
+                  {activeTab === 'course' ? 'Aperçu du cours' : 'Aperçu des exercices'}
+                </h3>
+                <p className="text-gray-600 mb-4">
+                  Le contenu PDF serait affiché ici dans un environnement de production.
+                </p>
+                <Button variant="primary">
+                  <Download className="h-4 w-4 mr-2" />
+                  Télécharger le PDF
+                </Button>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
-
-      {/* Navigation to next/previous lessons would be added here */}
     </div>
   );
 };

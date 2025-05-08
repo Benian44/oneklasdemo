@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { User, Calendar, MapPin, Phone, Home, GraduationCap, ChevronDown, Lock, Eye, EyeOff } from 'lucide-react';
+import { User, Calendar, MapPin, Phone, Home, GraduationCap, ChevronDown, Lock, Eye, EyeOff, Users } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useContent } from '../contexts/ContentContext';
 import Button from '../components/ui/Button';
@@ -22,13 +22,18 @@ const Register: React.FC = () => {
     password: '',
     confirmPassword: '',
     cycleId: '',
-    classId: ''
+    classId: '',
+    userType: 'student' as 'student' | 'parent' | 'teacher',
+    // Teacher specific fields
+    qualifications: '',
+    subjectIds: [] as string[],
+    // Parent specific fields
+    childrenIds: [] as string[]
   });
+
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  
-  // UI state
   const [selectedCycleClasses, setSelectedCycleClasses] = useState<any[]>([]);
 
   // Available cities
@@ -42,16 +47,14 @@ const Register: React.FC = () => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
     
-    // Clear error when user types
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }
 
-    // Handle cycle change to update available classes
     if (name === 'cycleId') {
       const cycleClasses = getClassesByCycle(value);
       setSelectedCycleClasses(cycleClasses);
-      setFormData(prev => ({ ...prev, classId: '' })); // Reset class selection
+      setFormData(prev => ({ ...prev, classId: '' }));
     }
   };
 
@@ -59,6 +62,7 @@ const Register: React.FC = () => {
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
     
+    // Common validations
     if (!formData.firstName.trim()) newErrors.firstName = 'Le prénom est requis';
     if (!formData.lastName.trim()) newErrors.lastName = 'Le nom est requis';
     if (!formData.dateOfBirth) newErrors.dateOfBirth = 'La date de naissance est requise';
@@ -68,8 +72,15 @@ const Register: React.FC = () => {
     if (!formData.password) newErrors.password = 'Le mot de passe est requis';
     if (formData.password.length < 6) newErrors.password = 'Le mot de passe doit contenir au moins 6 caractères';
     if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = 'Les mots de passe ne correspondent pas';
-    if (!formData.cycleId) newErrors.cycleId = 'Veuillez sélectionner un cycle';
-    if (!formData.classId) newErrors.classId = 'Veuillez sélectionner une classe';
+
+    // Type-specific validations
+    if (formData.userType === 'student') {
+      if (!formData.cycleId) newErrors.cycleId = 'Veuillez sélectionner un cycle';
+      if (!formData.classId) newErrors.classId = 'Veuillez sélectionner une classe';
+    }
+    if (formData.userType === 'teacher' && !formData.qualifications) {
+      newErrors.qualifications = 'Veuillez renseigner vos qualifications';
+    }
     
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -122,6 +133,37 @@ const Register: React.FC = () => {
           )}
 
           <form onSubmit={handleSubmit} className="p-6 space-y-6">
+            {/* User Type Selection */}
+            <div className="bg-gray-50 p-4 rounded-md mb-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                Type de compte
+              </h3>
+              <div className="grid grid-cols-3 gap-4">
+                {['student', 'parent', 'teacher'].map((type) => (
+                  <button
+                    key={type}
+                    type="button"
+                    className={`p-4 rounded-lg border-2 transition-all ${
+                      formData.userType === type
+                        ? 'border-blue-500 bg-blue-50'
+                        : 'border-gray-200 hover:border-gray-300'
+                    }`}
+                    onClick={() => setFormData(prev => ({ ...prev, userType: type as 'student' | 'parent' | 'teacher' }))}
+                  >
+                    <div className="flex flex-col items-center">
+                      {type === 'student' && <GraduationCap className="h-6 w-6 mb-2" />}
+                      {type === 'parent' && <Users className="h-6 w-6 mb-2" />}
+                      {type === 'teacher' && <User className="h-6 w-6 mb-2" />}
+                      <span className="font-medium">
+                        {type === 'student' ? 'Élève' : type === 'parent' ? 'Parent' : 'Enseignant'}
+                      </span>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Personal Information */}
             <div className="bg-gray-50 p-4 rounded-md mb-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
                 Informations personnelles
@@ -215,6 +257,7 @@ const Register: React.FC = () => {
               </div>
             </div>
 
+            {/* Address */}
             <div className="bg-gray-50 p-4 rounded-md mb-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
                 Adresse
@@ -261,66 +304,104 @@ const Register: React.FC = () => {
               </div>
             </div>
 
-            <div className="bg-gray-50 p-4 rounded-md">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                Niveau scolaire
-              </h3>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="form-control">
-                  <label className="label" htmlFor="cycleId">Cycle</label>
-                  <div className="relative">
-                    <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500">
-                      <GraduationCap className="h-5 w-5" />
-                    </div>
-                    <select
-                      id="cycleId"
-                      name="cycleId"
-                      value={formData.cycleId}
-                      onChange={handleChange}
-                      className={`select pl-10 ${errors.cycleId ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''}`}
-                      required
-                    >
-                      <option value="">Sélectionnez votre cycle</option>
-                      {cycles.map(cycle => (
-                        <option key={cycle.id} value={cycle.id}>{cycle.name}</option>
-                      ))}
-                    </select>
-                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-500 pointer-events-none">
-                      <ChevronDown className="h-4 w-4" />
-                    </div>
-                  </div>
-                  {errors.cycleId && <p className="text-xs text-red-500 mt-1">{errors.cycleId}</p>}
-                </div>
+            {/* Student-specific fields */}
+            {formData.userType === 'student' && (
+              <div className="bg-gray-50 p-4 rounded-md">
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                  Niveau scolaire
+                </h3>
                 
-                <div className="form-control">
-                  <label className="label" htmlFor="classId">Classe</label>
-                  <div className="relative">
-                    <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500">
-                      <GraduationCap className="h-5 w-5" />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="form-control">
+                    <label className="label" htmlFor="cycleId">Cycle</label>
+                    <div className="relative">
+                      <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500">
+                        <GraduationCap className="h-5 w-5" />
+                      </div>
+                      <select
+                        id="cycleId"
+                        name="cycleId"
+                        value={formData.cycleId}
+                        onChange={handleChange}
+                        className={`select pl-10 ${errors.cycleId ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''}`}
+                        required
+                      >
+                        <option value="">Sélectionnez votre cycle</option>
+                        {cycles.map(cycle => (
+                          <option key={cycle.id} value={cycle.id}>{cycle.name}</option>
+                        ))}
+                      </select>
+                      <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-500 pointer-events-none">
+                        <ChevronDown className="h-4 w-4" />
+                      </div>
                     </div>
-                    <select
-                      id="classId"
-                      name="classId"
-                      value={formData.classId}
-                      onChange={handleChange}
-                      className={`select pl-10 ${errors.classId ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''}`}
-                      disabled={!formData.cycleId}
-                      required
-                    >
-                      <option value="">Sélectionnez votre classe</option>
-                      {selectedCycleClasses.map(cls => (
-                        <option key={cls.id} value={cls.id}>{cls.name}</option>
-                      ))}
-                    </select>
-                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-500 pointer-events-none">
-                      <ChevronDown className="h-4 w-4" />
-                    </div>
+                    {errors.cycleId && <p className="text-xs text-red-500 mt-1">{errors.cycleId}</p>}
                   </div>
-                  {errors.classId && <p className="text-xs text-red-500 mt-1">{errors.classId}</p>}
+                  
+                  <div className="form-control">
+                    <label className="label" htmlFor="classId">Classe</label>
+                    <div className="relative">
+                      <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500">
+                        <GraduationCap className="h-5 w-5" />
+                      </div>
+                      <select
+                        id="classId"
+                        name="classId"
+                        value={formData.classId}
+                        onChange={handleChange}
+                        className={`select pl-10 ${errors.classId ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''}`}
+                        disabled={!formData.cycleId}
+                        required
+                      >
+                        <option value="">Sélectionnez votre classe</option>
+                        {selectedCycleClasses.map(cls => (
+                          <option key={cls.id} value={cls.id}>{cls.name}</option>
+                        ))}
+                      </select>
+                      <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-500 pointer-events-none">
+                        <ChevronDown className="h-4 w-4" />
+                      </div>
+                    </div>
+                    {errors.classId && <p className="text-xs text-red-500 mt-1">{errors.classId}</p>}
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
+
+            {/* Teacher-specific fields */}
+            {formData.userType === 'teacher' && (
+              <div className="bg-gray-50 p-4 rounded-md">
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                  Informations professionnelles
+                </h3>
+                <div className="space-y-4">
+                  <Input
+                    id="qualifications"
+                    name="qualifications"
+                    type="text"
+                    label="Qualifications"
+                    value={formData.qualifications}
+                    onChange={handleChange}
+                    error={errors.qualifications}
+                    placeholder="Ex: Licence en Mathématiques, CAPES..."
+                    required
+                  />
+                  {/* Add subject selection for teachers */}
+                </div>
+              </div>
+            )}
+
+            {/* Parent-specific fields */}
+            {formData.userType === 'parent' && (
+              <div className="bg-gray-50 p-4 rounded-md">
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                  Information sur l'élève
+                </h3>
+                <p className="text-sm text-gray-600 mb-4">
+                  Vous pourrez ajouter les informations de votre enfant après la création du compte.
+                </p>
+              </div>
+            )}
 
             <div className="flex justify-end">
               <Button
