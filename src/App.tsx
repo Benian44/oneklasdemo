@@ -20,6 +20,9 @@ import Classes from './pages/education/Classes';
 import Subjects from './pages/education/Subjects';
 import Lessons from './pages/education/Lessons';
 import LessonDetail from './pages/education/LessonDetail';
+import ExamPrep from './pages/education/ExamPrep';
+import ExamSubjects from './pages/education/ExamSubjects';
+import PastPapers from './pages/education/PastPapers';
 
 // Optional services
 import TutoringServices from './pages/services/TutoringServices';
@@ -40,6 +43,9 @@ function App() {
               <Route path="classes/:classId/subjects" element={<Subjects />} />
               <Route path="subjects/:subjectId/lessons" element={<Lessons />} />
               <Route path="lessons/:lessonId" element={<LessonDetail />} />
+              <Route path="exam-prep" element={<ExamPrep />} />
+              <Route path="exam-prep/:examType/subjects" element={<ExamSubjects />} />
+              <Route path="exam-prep/:examType/:subjectId" element={<PastPapers />} />
               <Route path="tutoring" element={<TutoringServices />} />
               <Route path="admin" element={<AdminDashboard />} />
               <Route path="*" element={<NotFound />} />

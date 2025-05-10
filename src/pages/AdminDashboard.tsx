@@ -1,14 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   Users, BookOpen, BookPlus, Upload, 
   FilePlus, UserPlus, PlusCircle, Search,
-  Edit, Trash, CheckCircle
+  Edit, Trash, CheckCircle, GraduationCap, User
 } from 'lucide-react';
 import { useContent } from '../contexts/ContentContext';
 import Button from '../components/ui/Button';
 import Card, { CardContent, CardHeader, CardTitle } from '../components/ui/Card';
 import Input from '../components/ui/Input';
+
+interface StoredUser {
+  id: string;
+  firstName: string;
+  lastName: string;
+  phone: string;
+  dateOfBirth: string;
+  city: string;
+  address: string;
+  cycleId: string;
+  classId: string;
+  userType: 'student' | 'parent' | 'teacher';
+  isAdmin?: boolean;
+  createdAt: string;
+  qualifications?: string;
+  subjectIds?: string[];
+  childrenIds?: string[];
+}
 
 const AdminDashboard: React.FC = () => {
   const { cycles, classes, subjects, lessons } = useContent();
@@ -20,22 +38,67 @@ const AdminDashboard: React.FC = () => {
   // State for search
   const [searchTerm, setSearchTerm] = useState('');
   
-  // Demo state for students (would come from API in real app)
-  const [students] = useState([
-    { id: '1', name: 'Aya Koné', class: '3ème', cycle: 'Collège', lastActive: '2 heures' },
-    { id: '2', name: 'Mamadou Touré', class: '1ère D', cycle: 'Lycée', lastActive: '1 jour' },
-    { id: '3', name: 'Sophie Diallo', class: 'Tle C', cycle: 'Lycée', lastActive: '5 heures' },
-    { id: '4', name: 'Ibrahim Bamba', class: '6ème', cycle: 'Collège', lastActive: '3 jours' },
-    { id: '5', name: 'Fatou Cissé', class: '2nd G1', cycle: 'Lycée', lastActive: '1 semaine' },
-  ]);
-  
-  // Function to filter data based on search term
-  const filteredStudents = students.filter(student => 
-    student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    student.class.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    student.cycle.toLowerCase().includes(searchTerm.toLowerCase())
+  // State for users
+  const [users, setUsers] = useState<StoredUser[]>([]);
+
+  // Load users from localStorage
+  useEffect(() => {
+    const storedUsers = JSON.parse(localStorage.getItem('oneklas_users') || '[]');
+    setUsers(storedUsers);
+  }, []);
+
+  // Function to get user type icon
+  const getUserTypeIcon = (userType: string) => {
+    switch (userType) {
+      case 'student':
+        return <GraduationCap className="h-5 w-5 text-blue-600" />;
+      case 'parent':
+        return <Users className="h-5 w-5 text-green-600" />;
+      case 'teacher':
+        return <User className="h-5 w-5 text-purple-600" />;
+      default:
+        return <User className="h-5 w-5" />;
+    }
+  };
+
+  // Function to get user type label
+  const getUserTypeLabel = (userType: string) => {
+    switch (userType) {
+      case 'student':
+        return 'Élève';
+      case 'parent':
+        return 'Parent';
+      case 'teacher':
+        return 'Enseignant';
+      default:
+        return userType;
+    }
+  };
+
+  // Function to get class name
+  const getClassName = (classId: string) => {
+    return classes.find(c => c.id === classId)?.name || 'N/A';
+  };
+
+  // Function to delete user
+  const handleDeleteUser = (userId: string) => {
+    if (window.confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')) {
+      const updatedUsers = users.filter(user => user.id !== userId);
+      localStorage.setItem('oneklas_users', JSON.stringify(updatedUsers));
+      setUsers(updatedUsers);
+    }
+  };
+
+  // Filter users based on search term
+  const filteredUsers = users.filter(user => 
+    user.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    user.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    user.phone.includes(searchTerm) ||
+    user.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    getUserTypeLabel(user.userType).toLowerCase().includes(searchTerm.toLowerCase())
   );
-  
+
+  // Filter subjects and lessons as before
   const filteredSubjects = subjects.filter(subject => 
     subject.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     subject.description.toLowerCase().includes(searchTerm.toLowerCase())
@@ -56,8 +119,19 @@ const AdminDashboard: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <Card className="admin-card">
                 <div className="flex flex-col">
-                  <p className="text-gray-500 mb-1">Élèves inscrits</p>
-                  <p className="admin-stat">{students.length}</p>
+                  <p className="text-gray-500 mb-1">Utilisateurs inscrits</p>
+                  <p className="admin-stat">{users.length}</p>
+                  <div className="mt-2 space-y-1">
+                    <p className="text-sm text-gray-500">
+                      {users.filter(u => u.userType === 'student').length} élèves
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      {users.filter(u => u.userType === 'parent').length} parents
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      {users.filter(u => u.userType === 'teacher').length} enseignants
+                    </p>
+                  </div>
                 </div>
                 <div className="mt-4">
                   <Button
@@ -122,38 +196,26 @@ const AdminDashboard: React.FC = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  <div className="flex items-start space-x-3">
-                    <div className="bg-blue-100 rounded-full p-2">
-                      <FilePlus className="h-5 w-5 text-blue-800" />
+                  {users.slice(-3).reverse().map((user, index) => (
+                    <div key={index} className="flex items-start space-x-3">
+                      <div className="bg-blue-100 rounded-full p-2">
+                        {getUserTypeIcon(user.userType)}
+                      </div>
+                      <div>
+                        <p className="font-medium">Nouvel utilisateur inscrit</p>
+                        <p className="text-sm">{user.firstName} {user.lastName} - {getUserTypeLabel(user.userType)}</p>
+                        <p className="text-xs text-gray-500">
+                          {new Date(user.createdAt).toLocaleDateString('fr-FR', {
+                            day: 'numeric',
+                            month: 'long',
+                            year: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                          })}
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="font-medium">Nouveau document ajouté</p>
-                      <p className="text-sm">Mathématiques - Cours pour 2nd C</p>
-                      <p className="text-xs text-gray-500">Il y a 2 heures</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start space-x-3">
-                    <div className="bg-green-100 rounded-full p-2">
-                      <UserPlus className="h-5 w-5 text-green-600" />
-                    </div>
-                    <div>
-                      <p className="font-medium">Nouvel élève inscrit</p>
-                      <p className="text-sm">Kouamé Yao - Classe de 4ème</p>
-                      <p className="text-xs text-gray-500">Il y a 5 heures</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start space-x-3">
-                    <div className="bg-purple-100 rounded-full p-2">
-                      <Edit className="h-5 w-5 text-purple-600" />
-                    </div>
-                    <div>
-                      <p className="font-medium">Contenu modifié</p>
-                      <p className="text-sm">Anglais - Leçon 8 mise à jour</p>
-                      <p className="text-xs text-gray-500">Il y a 1 jour</p>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </CardContent>
             </Card>
@@ -168,6 +230,7 @@ const AdminDashboard: React.FC = () => {
                   <Button
                     variant="outline"
                     className="h-auto py-4 flex flex-col items-center justify-center"
+                    onClick={() => setActiveTab('lessons')}
                   >
                     <BookPlus className="h-6 w-6 mb-2" />
                     <span>Ajouter une leçon</span>
@@ -176,17 +239,19 @@ const AdminDashboard: React.FC = () => {
                   <Button
                     variant="outline"
                     className="h-auto py-4 flex flex-col items-center justify-center"
+                    onClick={() => setActiveTab('subjects')}
                   >
                     <Upload className="h-6 w-6 mb-2" />
-                    <span>Téléverser un PDF</span>
+                    <span>Gérer les matières</span>
                   </Button>
                   
                   <Button
                     variant="outline"
                     className="h-auto py-4 flex flex-col items-center justify-center"
+                    onClick={() => setActiveTab('students')}
                   >
                     <PlusCircle className="h-6 w-6 mb-2" />
-                    <span>Créer une matière</span>
+                    <span>Gérer les utilisateurs</span>
                   </Button>
                 </div>
               </CardContent>
@@ -199,19 +264,12 @@ const AdminDashboard: React.FC = () => {
           <div className="space-y-6">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <Input
-                placeholder="Rechercher un élève..."
+                placeholder="Rechercher un utilisateur..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 leftIcon={<Search className="h-5 w-5" />}
                 className="md:max-w-xs"
               />
-              
-              <Button
-                variant="primary"
-                leftIcon={<UserPlus className="h-5 w-5" />}
-              >
-                Ajouter un élève
-              </Button>
             </div>
             
             <Card>
@@ -220,16 +278,22 @@ const AdminDashboard: React.FC = () => {
                   <thead className="bg-gray-50 border-b border-gray-200">
                     <tr>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Nom
+                        Type
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Nom complet
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Contact
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Classe
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Cycle
+                        Ville
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Dernière connexion
+                        Date d'inscription
                       </th>
                       <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Actions
@@ -237,25 +301,48 @@ const AdminDashboard: React.FC = () => {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {filteredStudents.map((student) => (
-                      <tr key={student.id} className="hover:bg-gray-50">
+                    {filteredUsers.map((user) => (
+                      <tr key={user.id} className="hover:bg-gray-50">
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="font-medium text-gray-900">{student.name}</div>
+                          <div className="flex items-center">
+                            {getUserTypeIcon(user.userType)}
+                            <span className="ml-2">{getUserTypeLabel(user.userType)}</span>
+                          </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-gray-500">{student.class}</div>
+                          <div className="font-medium text-gray-900">
+                            {user.firstName} {user.lastName}
+                          </div>
+                          {user.userType === 'teacher' && user.qualifications && (
+                            <div className="text-sm text-gray-500">{user.qualifications}</div>
+                          )}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-gray-500">{student.cycle}</div>
+                          <div className="text-gray-900">{user.phone}</div>
+                          <div className="text-sm text-gray-500">{user.address}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-gray-500">{student.lastActive}</div>
+                          <div className="text-gray-500">
+                            {user.userType === 'student' ? getClassName(user.classId) : '-'}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-gray-500">{user.city}</div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-gray-500">
+                            {new Date(user.createdAt).toLocaleDateString('fr-FR')}
+                          </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                           <Button
                             variant="ghost"
                             size="sm"
                             className="text-blue-700"
+                            onClick={() => {
+                              // Implement edit functionality
+                              alert('Fonctionnalité de modification à venir');
+                            }}
                           >
                             <Edit className="h-4 w-4" />
                           </Button>
@@ -263,6 +350,7 @@ const AdminDashboard: React.FC = () => {
                             variant="ghost"
                             size="sm"
                             className="text-red-600"
+                            onClick={() => handleDeleteUser(user.id)}
                           >
                             <Trash className="h-4 w-4" />
                           </Button>
@@ -272,9 +360,9 @@ const AdminDashboard: React.FC = () => {
                   </tbody>
                 </table>
               </div>
-              {filteredStudents.length === 0 && (
+              {filteredUsers.length === 0 && (
                 <div className="text-center py-6">
-                  <p className="text-gray-500">Aucun élève trouvé</p>
+                  <p className="text-gray-500">Aucun utilisateur trouvé</p>
                 </div>
               )}
             </Card>
@@ -296,6 +384,9 @@ const AdminDashboard: React.FC = () => {
               <Button
                 variant="primary"
                 leftIcon={<BookPlus className="h-5 w-5" />}
+                onClick={() => {
+                  alert('Fonctionnalité d\'ajout de matière à venir');
+                }}
               >
                 Ajouter une matière
               </Button>
@@ -316,6 +407,9 @@ const AdminDashboard: React.FC = () => {
                       <Button
                         variant="outline"
                         size="sm"
+                        onClick={() => {
+                          alert('Fonctionnalité de modification à venir');
+                        }}
                       >
                         <Edit className="h-4 w-4 mr-1" />
                         Modifier
@@ -324,6 +418,9 @@ const AdminDashboard: React.FC = () => {
                         variant="outline"
                         size="sm"
                         className="text-red-600 border-red-200 hover:bg-red-50"
+                        onClick={() => {
+                          alert('Fonctionnalité de suppression à venir');
+                        }}
                       >
                         <Trash className="h-4 w-4 mr-1" />
                         Supprimer
@@ -356,6 +453,9 @@ const AdminDashboard: React.FC = () => {
               <Button
                 variant="primary"
                 leftIcon={<FilePlus className="h-5 w-5" />}
+                onClick={() => {
+                  alert('Fonctionnalité d\'ajout de leçon à venir');
+                }}
               >
                 Ajouter une leçon
               </Button>
@@ -402,6 +502,10 @@ const AdminDashboard: React.FC = () => {
                               <CheckCircle className="h-3 w-3 mr-1" />
                               Exercices
                             </div>
+                            <div className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-purple-100 text-purple-800">
+                              <CheckCircle className="h-3 w-3 mr-1" />
+                              Vidéo
+                            </div>
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -409,6 +513,9 @@ const AdminDashboard: React.FC = () => {
                             variant="ghost"
                             size="sm"
                             className="text-blue-700"
+                            onClick={() => {
+                              alert('Fonctionnalité de modification à venir');
+                            }}
                           >
                             <Edit className="h-4 w-4" />
                           </Button>
@@ -416,6 +523,9 @@ const AdminDashboard: React.FC = () => {
                             variant="ghost"
                             size="sm"
                             className="text-red-600"
+                            onClick={() => {
+                              alert('Fonctionnalité de suppression à venir');
+                            }}
                           >
                             <Trash className="h-4 w-4" />
                           </Button>
@@ -444,7 +554,7 @@ const AdminDashboard: React.FC = () => {
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
         <div>
           <h1 className="text-3xl font-bold mb-1">Administration</h1>
-          <p className="text-gray-600">Gérez les contenus, les élèves et les paramètres de la plateforme</p>
+          <p className="text-gray-600">Gérez les contenus, les utilisateurs et les paramètres de la plateforme</p>
         </div>
       </div>
 
@@ -468,7 +578,7 @@ const AdminDashboard: React.FC = () => {
           }`}
           onClick={() => setActiveTab('students')}
         >
-          Élèves
+          Utilisateurs
         </button>
         <button
           className={`py-3 px-5 border-b-2 font-medium ${
