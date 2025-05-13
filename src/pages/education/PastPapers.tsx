@@ -7,6 +7,8 @@ import Button from '../../components/ui/Button';
 interface PastPaper {
   id: string;
   year: number;
+  zone?: string; // For BEPC
+  series?: string; // For BAC
   title: string;
   type: 'question' | 'answer';
   fileUrl: string;
@@ -17,26 +19,74 @@ const PastPapers: React.FC = () => {
   const { getSubjectById } = useContent();
   const subject = subjectId ? getSubjectById(subjectId) : undefined;
 
-  // Mock past papers data (in a real app, this would come from your backend)
-  const pastPapers: PastPaper[] = Array.from({ length: 5 }, (_, i) => {
-    const year = 2023 - i;
-    return [
-      {
-        id: `${year}-q`,
-        year,
-        title: `Sujet ${examType?.toUpperCase()} ${year}`,
-        type: 'question',
-        fileUrl: `#`
-      },
-      {
-        id: `${year}-a`,
-        year,
-        title: `Corrigé ${examType?.toUpperCase()} ${year}`,
-        type: 'answer',
-        fileUrl: `#`
-      }
-    ];
-  }).flat();
+  // Mock past papers data organized by exam type
+  const getPastPapers = (): PastPaper[] => {
+    const years = [2023, 2022, 2021, 2020, 2019];
+    const papers: PastPaper[] = [];
+
+    if (examType === 'bepc') {
+      const zones = ['Zone 1', 'Zone 2', 'Zone 3'];
+      zones.forEach(zone => {
+        years.forEach(year => {
+          papers.push(
+            {
+              id: `${year}-${zone}-q`,
+              year,
+              zone,
+              title: `Sujet BEPC ${year} - ${zone}`,
+              type: 'question',
+              fileUrl: `#`
+            },
+            {
+              id: `${year}-${zone}-a`,
+              year,
+              zone,
+              title: `Corrigé BEPC ${year} - ${zone}`,
+              type: 'answer',
+              fileUrl: `#`
+            }
+          );
+        });
+      });
+    } else if (examType === 'bac') {
+      const series = ['A', 'B', 'C', 'D', 'G1', 'G2'];
+      series.forEach(serie => {
+        years.forEach(year => {
+          papers.push(
+            {
+              id: `${year}-${serie}-q`,
+              year,
+              series: serie,
+              title: `Sujet BAC ${serie} ${year}`,
+              type: 'question',
+              fileUrl: `#`
+            },
+            {
+              id: `${year}-${serie}-a`,
+              year,
+              series: serie,
+              title: `Corrigé BAC ${serie} ${year}`,
+              type: 'answer',
+              fileUrl: `#`
+            }
+          );
+        });
+      });
+    }
+
+    return papers;
+  };
+
+  const pastPapers = getPastPapers();
+
+  // Group papers by year
+  const papersByYear = pastPapers.reduce((acc, paper) => {
+    if (!acc[paper.year]) {
+      acc[paper.year] = [];
+    }
+    acc[paper.year].push(paper);
+    return acc;
+  }, {} as Record<number, PastPaper[]>);
 
   if (!subject) {
     return (
@@ -66,50 +116,56 @@ const PastPapers: React.FC = () => {
         </p>
       </div>
 
-      <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-        <div className="border-b border-gray-200 bg-gray-50 px-6 py-4">
-          <h2 className="font-semibold">Annales disponibles</h2>
-        </div>
-
-        <div className="divide-y divide-gray-100">
-          {pastPapers.map((paper) => (
-            <div key={paper.id} className="flex items-center justify-between px-6 py-4 hover:bg-gray-50">
-              <div className="flex items-center">
-                <div className={`rounded-full p-2 mr-4 ${
-                  paper.type === 'question' ? 'bg-blue-100' : 'bg-green-100'
-                }`}>
-                  <FileText className={`h-5 w-5 ${
-                    paper.type === 'question' ? 'text-blue-800' : 'text-green-800'
-                  }`} />
-                </div>
-                <div>
-                  <h3 className="font-medium">{paper.title}</h3>
-                  <p className="text-sm text-gray-500">
-                    {paper.type === 'question' ? 'Sujet d\'examen' : 'Corrigé détaillé'}
-                  </p>
-                </div>
-              </div>
-              <div className="flex space-x-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  leftIcon={<Eye className="h-4 w-4" />}
-                  onClick={() => window.open(paper.fileUrl, '_blank')}
-                >
-                  Aperçu
-                </Button>
-                <Button
-                  variant={paper.type === 'question' ? 'primary' : 'secondary'}
-                  size="sm"
-                  leftIcon={<Download className="h-4 w-4" />}
-                  onClick={() => window.open(paper.fileUrl, '_blank')}
-                >
-                  Télécharger
-                </Button>
-              </div>
+      <div className="space-y-8">
+        {Object.entries(papersByYear).map(([year, papers]) => (
+          <div key={year} className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+            <div className="border-b border-gray-200 bg-gray-50 px-6 py-4">
+              <h2 className="font-semibold">Session {year}</h2>
             </div>
-          ))}
-        </div>
+
+            <div className="divide-y divide-gray-100">
+              {papers.map((paper) => (
+                <div key={paper.id} className="flex items-center justify-between px-6 py-4 hover:bg-gray-50">
+                  <div className="flex items-center">
+                    <div className={`rounded-full p-2 mr-4 ${
+                      paper.type === 'question' ? 'bg-blue-100' : 'bg-green-100'
+                    }`}>
+                      <FileText className={`h-5 w-5 ${
+                        paper.type === 'question' ? 'text-blue-800' : 'text-green-800'
+                      }`} />
+                    </div>
+                    <div>
+                      <h3 className="font-medium">{paper.title}</h3>
+                      <p className="text-sm text-gray-500">
+                        {paper.type === 'question' ? 'Sujet d\'examen' : 'Corrigé détaillé'}
+                        {paper.zone && ` - ${paper.zone}`}
+                        {paper.series && ` - Série ${paper.series}`}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex space-x-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      leftIcon={<Eye className="h-4 w-4" />}
+                      onClick={() => window.open(paper.fileUrl, '_blank')}
+                    >
+                      Aperçu
+                    </Button>
+                    <Button
+                      variant={paper.type === 'question' ? 'primary' : 'secondary'}
+                      size="sm"
+                      leftIcon={<Download className="h-4 w-4" />}
+                      onClick={() => window.open(paper.fileUrl, '_blank')}
+                    >
+                      Télécharger
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* Study Tips */}

@@ -9,14 +9,20 @@ const ExamSubjects: React.FC = () => {
   const { subjects } = useContent();
   const navigate = useNavigate();
 
-  // Filter subjects based on exam type
-  const examSubjects = subjects.filter(subject => {
+  // Filter subjects based on exam type and series
+  const getExamSubjects = () => {
     if (examType === 'bepc') {
-      return ['1', '2', '3', '4', '5', '6', '7'].includes(subject.id); // IDs for BEPC subjects
+      // BEPC subjects
+      return subjects.filter(subject => 
+        ['Français', 'Anglais', 'Mathématiques', 'Physique-Chimie', 'SVT', 'Histoire', 'Géographie'].includes(subject.name)
+      );
     } else {
-      return true; // Show all subjects for BAC
+      // BAC subjects - show all and filter by series in the UI
+      return subjects;
     }
-  });
+  };
+
+  const examSubjects = getExamSubjects();
 
   return (
     <div className="page-container">
@@ -30,6 +36,7 @@ const ExamSubjects: React.FC = () => {
       </h1>
       <p className="text-gray-600 mb-8">
         Sélectionnez une matière pour accéder aux sujets et corrigés des années précédentes.
+        {examType === 'bac' && ' Les sujets sont organisés par série.'}
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -49,12 +56,49 @@ const ExamSubjects: React.FC = () => {
               <p className="text-gray-600 mb-4">{subject.description}</p>
               <div className="flex items-center text-blue-700">
                 <FileText className="h-4 w-4 mr-1" />
-                <span className="text-sm">Voir les sujets</span>
+                <span className="text-sm">
+                  {examType === 'bepc' 
+                    ? 'Sujets par zone'
+                    : 'Sujets par série'
+                  }
+                </span>
               </div>
             </div>
           </Card>
         ))}
       </div>
+
+      {examType === 'bac' && (
+        <div className="mt-8 bg-gray-50 rounded-lg p-6 border border-gray-200">
+          <h2 className="text-xl font-semibold mb-4">Séries disponibles</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="p-4 bg-white rounded-lg border border-gray-200">
+              <h3 className="font-semibold mb-2">Série A</h3>
+              <p className="text-sm text-gray-600">Littéraire</p>
+            </div>
+            <div className="p-4 bg-white rounded-lg border border-gray-200">
+              <h3 className="font-semibold mb-2">Série B</h3>
+              <p className="text-sm text-gray-600">Économique</p>
+            </div>
+            <div className="p-4 bg-white rounded-lg border border-gray-200">
+              <h3 className="font-semibold mb-2">Série C</h3>
+              <p className="text-sm text-gray-600">Mathématiques et Sciences Physiques</p>
+            </div>
+            <div className="p-4 bg-white rounded-lg border border-gray-200">
+              <h3 className="font-semibold mb-2">Série D</h3>
+              <p className="text-sm text-gray-600">Sciences de la Vie et de la Terre</p>
+            </div>
+            <div className="p-4 bg-white rounded-lg border border-gray-200">
+              <h3 className="font-semibold mb-2">Série G1</h3>
+              <p className="text-sm text-gray-600">Techniques Administratives</p>
+            </div>
+            <div className="p-4 bg-white rounded-lg border border-gray-200">
+              <h3 className="font-semibold mb-2">Série G2</h3>
+              <p className="text-sm text-gray-600">Techniques Quantitatives de Gestion</p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
