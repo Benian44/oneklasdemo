@@ -3,12 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import { 
   Users, BookOpen, BookPlus, Upload, 
   FilePlus, UserPlus, PlusCircle, Search,
-  Edit, Trash, CheckCircle, GraduationCap, User
+  Edit, Trash, CheckCircle, GraduationCap, User, Dumbbell, HelpCircle
 } from 'lucide-react';
 import { useContent } from '../contexts/ContentContext';
 import Button from '../components/ui/Button';
 import Card, { CardContent, CardHeader, CardTitle } from '../components/ui/Card';
 import Input from '../components/ui/Input';
+import HomeworkManager from '../components/admin/HomeworkManager';
+import QuizManager from '../components/admin/QuizManager';
+import HelpRequestManager from '../components/admin/HelpRequestManager';
+import TutoringManager from '../components/admin/TutoringManager';
 
 interface StoredUser {
   id: string;
@@ -33,7 +37,7 @@ const AdminDashboard: React.FC = () => {
   const navigate = useNavigate();
   
   // State for active tab
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'students' | 'subjects' | 'lessons'>('dashboard');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'students' | 'subjects' | 'lessons' | 'homework' | 'quiz' | 'help' | 'tutoring'>('dashboard');
   
   // State for search
   const [searchTerm, setSearchTerm] = useState('');
@@ -544,6 +548,18 @@ const AdminDashboard: React.FC = () => {
           </div>
         );
         
+      case 'homework':
+        return <HomeworkManager />;
+        
+      case 'quiz':
+        return <QuizManager />;
+        
+      case 'help':
+        return <HelpRequestManager />;
+        
+      case 'tutoring':
+        return <TutoringManager />;
+        
       default:
         return null;
     }
@@ -599,6 +615,46 @@ const AdminDashboard: React.FC = () => {
           onClick={() => setActiveTab('lessons')}
         >
           Leçons
+        </button>
+        <button
+          className={`py-3 px-5 border-b-2 font-medium ${
+            activeTab === 'homework' 
+              ? 'border-blue-500 text-blue-600' 
+              : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+          }`}
+          onClick={() => setActiveTab('homework')}
+        >
+          Devoirs Corrigés
+        </button>
+        <button
+          className={`py-3 px-5 border-b-2 font-medium ${
+            activeTab === 'quiz' 
+              ? 'border-blue-500 text-blue-600' 
+              : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+          }`}
+          onClick={() => setActiveTab('quiz')}
+        >
+          Quiz
+        </button>
+        <button
+          className={`py-3 px-5 border-b-2 font-medium ${
+            activeTab === 'help' 
+              ? 'border-blue-500 text-blue-600' 
+              : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+          }`}
+          onClick={() => setActiveTab('help')}
+        >
+          Demandes d'aide
+        </button>
+        <button
+          className={`py-3 px-5 border-b-2 font-medium ${
+            activeTab === 'tutoring' 
+              ? 'border-blue-500 text-blue-600' 
+              : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+          }`}
+          onClick={() => setActiveTab('tutoring')}
+        >
+          Cours à domicile
         </button>
       </div>
 

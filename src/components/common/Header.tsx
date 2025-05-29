@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import { BookOpen, GraduationCap, User, LogOut, Menu, X } from 'lucide-react';
+import { BookOpen, GraduationCap, User, LogOut, Menu, X, FileText } from 'lucide-react';
 import Logo from './Logo';
 
 const Header = () => {
@@ -57,6 +57,14 @@ const Header = () => {
             >
               <GraduationCap className="h-4 w-4 mr-2" />
               Examens
+            </Link>
+
+            <Link 
+              to="/devoirs-corriges" 
+              className="nav-link flex items-center"
+            >
+              <FileText className="h-4 w-4 mr-2" />
+              Devoirs Corrigés
             </Link>
             
             <Link 
@@ -120,6 +128,15 @@ const Header = () => {
           >
             <GraduationCap className="h-5 w-5 mr-3" />
             Examens
+          </Link>
+
+          <Link
+            to="/devoirs-corriges"
+            className="nav-link block px-3 py-2 rounded-md text-base font-medium flex items-center"
+            onClick={closeMenu}
+          >
+            <FileText className="h-5 w-5 mr-3" />
+            Devoirs Corrigés
           </Link>
 
           <Link

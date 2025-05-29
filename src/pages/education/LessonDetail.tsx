@@ -3,10 +3,14 @@ import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, FileText, Download, BookOpen, Dumbbell, Video } from 'lucide-react';
 import { useContent } from '../../contexts/ContentContext';
 import Button from '../../components/ui/Button';
+import { useAuth } from '../../contexts/AuthContext';
+import LessonQuizzes from '../../components/quiz/LessonQuizzes';
+import HelpRequestForm from '../../components/help/HelpRequestForm';
 
 const LessonDetail: React.FC = () => {
   const { lessonId } = useParams<{ lessonId: string }>();
   const { getLessonById, getSubjectById } = useContent();
+  const { user } = useAuth();
   
   // State to track active tab
   const [activeTab, setActiveTab] = useState<'course' | 'exercises' | 'video'>('course');
@@ -137,6 +141,29 @@ const LessonDetail: React.FC = () => {
             </div>
           )}
         </div>
+      </div>
+
+      {/* Section Quiz */}
+      <div className="mt-8">
+        <h2 className="text-2xl font-bold mb-4">Quiz</h2>
+        {user && lesson && (
+          <LessonQuizzes
+            lessonId={lesson.id}
+            userId={user.id}
+          />
+        )}
+      </div>
+
+      {/* Section Aide moi prof */}
+      <div className="mt-8">
+        <h2 className="text-2xl font-bold mb-4">Besoin d'aide ?</h2>
+        {user && lesson && subject && (
+          <HelpRequestForm
+            userId={user.id}
+            lessonId={lesson.id}
+            subject={subject.name}
+          />
+        )}
       </div>
     </div>
   );

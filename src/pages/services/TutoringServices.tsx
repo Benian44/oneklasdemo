@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
-import { CheckCircle, Users, Home, Clock, CreditCard } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { CheckCircle, Users, Home, Clock, CreditCard, AlertCircle } from 'lucide-react';
 import Button from '../../components/ui/Button';
 import Card, { CardContent, CardHeader, CardTitle } from '../../components/ui/Card';
+import { useAuth } from '../../contexts/AuthContext';
+import { tutoringService, type TutoringLevel, type TutoringRegistration } from '../../services/tutoringService';
 
 interface TutoringOption {
   id: string;
@@ -15,6 +17,11 @@ interface TutoringOption {
 const TutoringServices: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
+  const [levels, setLevels] = useState<TutoringLevel[]>([]);
+  const [selectedLevel, setSelectedLevel] = useState<TutoringLevel | null>(null);
+  const [registrations, setRegistrations] = useState<TutoringRegistration[]>([]);
+  const [showPaymentInfo, setShowPaymentInfo] = useState(false);
+  const { user } = useAuth();
   
   // Available subjects
   const subjects = [
@@ -94,6 +101,19 @@ const TutoringServices: React.FC = () => {
     }
   ];
 
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = async () => {
+    const [levelsData, registrationsData] = await Promise.all([
+      tutoringService.getAllLevels(),
+      user ? tutoringService.getRegistrationsByUser(user.id) : Promise.resolve([])
+    ]);
+    setLevels(levelsData);
+    setRegistrations(registrationsData);
+  };
+
   // Toggle subject selection
   const toggleSubject = (subjectId: string) => {
     if (selectedSubjects.includes(subjectId)) {
@@ -137,13 +157,188 @@ const TutoringServices: React.FC = () => {
     return pricePerSubject * selectedSubjects.length;
   };
 
+  const handleSubjectToggle = (subject: string) => {
+    setSelectedSubjects(prev =>
+      prev.includes(subject)
+        ? prev.filter(s => s !== subject)
+        : [...prev, subject]
+    );
+  };
+
+  const handleRegister = async () => {
+    if (!user || !selectedLevel) return;
+
+    await tutoringService.registerForTutoring({
+      userId: user.id,
+      levelId: selectedLevel.id,
+      subjects: selectedSubjects
+    });
+
+    setShowPaymentInfo(true);
+    await loadData();
+  };
+
+  const paymentInfo = tutoringService.getPaymentInfo();
+
   return (
     <div className="page-container">
-      <h1 className="text-3xl font-bold mb-2">Services de Tutorat</h1>
-      <p className="text-gray-600 max-w-3xl mb-8">
-        OneKlas propose des services de tutorat en présentiel pour vous aider à progresser dans vos études.
-        Nos tuteurs qualifiés sont disponibles pour des cours en groupe ou à domicile.
-      </p>
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold mb-2">Cours à domicile en ligne</h1>
+        <p className="text-gray-600">
+          Bénéficiez d'un accompagnement personnalisé avec nos enseignants qualifiés
+        </p>
+      </div>
+
+      {/* Affichage des niveaux disponibles */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        {levels.map((level) => (
+          <Card
+            key={level.id}
+            className={`cursor-pointer transition-all ${
+              selectedLevel?.id === level.id
+                ? 'ring-2 ring-blue-500'
+                : 'hover:shadow-lg'
+            }`}
+            onClick={() => {
+              setSelectedLevel(level);
+              setSelectedSubjects([]);
+            }}
+          >
+            <CardHeader>
+              <CardTitle>{level.name}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-gray-600 mb-4">{level.description}</p>
+              <p className="text-xl font-bold text-blue-600 mb-4">
+                {level.pricePerHour.toLocaleString()} FCFA
+                <span className="text-sm font-normal text-gray-500">/heure</span>
+              </p>
+              <div>
+                <p className="font-medium mb-2">Matières disponibles :</p>
+                <div className="flex flex-wrap gap-2">
+                  {level.subjects.map((subject) => (
+                    <span
+                      key={subject}
+                      className="px-2 py-1 bg-gray-100 rounded-full text-sm"
+                    >
+                      {subject}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      {/* Sélection des matières si un niveau est sélectionné */}
+      {selectedLevel && (
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle>Sélectionnez vos matières</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-wrap gap-3">
+              {selectedLevel.subjects.map((subject) => (
+                <button
+                  key={subject}
+                  onClick={() => handleSubjectToggle(subject)}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                    selectedSubjects.includes(subject)
+                      ? 'bg-blue-100 text-blue-800'
+                      : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
+                  }`}
+                >
+                  {subject}
+                </button>
+              ))}
+            </div>
+            {selectedSubjects.length > 0 && (
+              <div className="mt-6">
+                <Button
+                  onClick={handleRegister}
+                  className="w-full md:w-auto"
+                >
+                  S'inscrire aux cours
+                </Button>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Modal d'information de paiement */}
+      {showPaymentInfo && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+          <Card className="w-full max-w-lg">
+            <CardHeader>
+              <CardTitle>Information de paiement</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="bg-blue-50 p-4 rounded-lg">
+                  <p className="font-medium mb-2">Numéro Wave pour le paiement :</p>
+                  <p className="text-xl font-bold text-blue-600">{paymentInfo.waveNumber}</p>
+                </div>
+                <div>
+                  <p className="text-gray-600">{paymentInfo.instructions}</p>
+                </div>
+                <Button
+                  variant="outline"
+                  onClick={() => setShowPaymentInfo(false)}
+                  className="w-full"
+                >
+                  Fermer
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* Liste des inscriptions de l'utilisateur */}
+      {user && registrations.length > 0 && (
+        <div className="mt-12">
+          <h2 className="text-2xl font-bold mb-4">Mes inscriptions</h2>
+          <div className="space-y-4">
+            {registrations.map((registration) => {
+              const level = levels.find(l => l.id === registration.levelId);
+              return (
+                <Card key={registration.id}>
+                  <CardContent className="flex items-center justify-between p-6">
+                    <div>
+                      <h3 className="font-medium">{level?.name}</h3>
+                      <div className="flex flex-wrap gap-2 mt-2">
+                        {registration.subjects.map((subject, index) => (
+                          <span
+                            key={index}
+                            className="px-2 py-1 bg-gray-100 rounded-full text-sm"
+                          >
+                            {subject}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="flex items-center">
+                      {registration.paymentStatus === 'completed' ? (
+                        <div className="flex items-center text-green-600">
+                          <CheckCircle className="w-5 h-5 mr-2" />
+                          <span>Payé</span>
+                        </div>
+                      ) : (
+                        <div className="flex items-center text-yellow-600">
+                          <AlertCircle className="w-5 h-5 mr-2" />
+                          <span>En attente de paiement</span>
+                        </div>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {/* Tutoring Options */}
       <div className="mb-12">

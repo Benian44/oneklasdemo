@@ -23,6 +23,7 @@ import LessonDetail from './pages/education/LessonDetail';
 import ExamPrep from './pages/education/ExamPrep';
 import ExamSubjects from './pages/education/ExamSubjects';
 import PastPapers from './pages/education/PastPapers';
+import CorrectedHomeworkPage from './pages/education/CorrectedHomeworkPage';
 
 // Optional services
 import TutoringServices from './pages/services/TutoringServices';
@@ -48,6 +49,7 @@ function App() {
               <Route path="exam-prep/:examType/:subjectId" element={<PastPapers />} />
               <Route path="tutoring" element={<TutoringServices />} />
               <Route path="admin" element={<AdminDashboard />} />
+              <Route path="devoirs-corriges" element={<CorrectedHomeworkPage />} />
               <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>
