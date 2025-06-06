@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OneKlas - Préparation aux examens</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-gray-50">
+    <div id="header"></div>
+
+    <!-- Hero Section -->
+    <div class="hero-gradient text-white">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl mb-4">
+                    Préparation aux examens
+                </h1>
+                <p class="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
+                    Préparez efficacement votre BEPC ou BAC avec nos ressources complètes et nos outils de simulation
+                </p>
+                <div class="flex justify-center space-x-6">
+                    <button class="bg-white text-blue-800 px-8 py-4 rounded-lg font-semibold hover:bg-blue-50 transition-colors flex items-center">
+                        <i class="fas fa-graduation-cap text-2xl mr-3"></i>
+                        Préparer le BEPC
+                    </button>
+                    <button class="bg-orange-500 text-white px-8 py-4 rounded-lg font-semibold hover:bg-orange-600 transition-colors flex items-center">
+                        <i class="fas fa-user-graduate text-2xl mr-3"></i>
+                        Préparer le BAC
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section Ressources -->
+    <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Carte 1 - Anciens sujets -->
+            <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fas fa-file-alt text-2xl text-blue-600"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">Anciens sujets</h3>
+                <p class="text-gray-600 mb-4">Téléchargez les sujets des années précédentes par matière</p>
+                <div class="flex items-center text-sm text-gray-500">
+                    <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                    <span>Mis à jour régulièrement</span>
+                </div>
+            </div>
+
+            <!-- Carte 2 - Corrigés -->
+            <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fas fa-check-double text-2xl text-green-600"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">Corrigés détaillés</h3>
+                <p class="text-gray-600 mb-4">Consultez les solutions expliquées étape par étape</p>
+                <div class="flex items-center text-sm text-gray-500">
+                    <i class="fas fa-video text-green-500 mr-2"></i>
+                    <span>Vidéos explicatives</span>
+                </div>
+            </div>
+
+            <!-- Carte 3 - Simulations -->
+            <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+                <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fas fa-clock text-2xl text-orange-600"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">Simulations</h3>
+                <p class="text-gray-600 mb-4">Entraînez-vous en conditions réelles d'examen</p>
+                <div class="flex items-center text-sm text-gray-500">
+                    <i class="fas fa-stopwatch text-orange-500 mr-2"></i>
+                    <span>Chronométré</span>
+                </div>
+            </div>
+
+            <!-- Carte 4 - Statistiques -->
+            <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+                <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fas fa-chart-line text-2xl text-purple-600"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">Statistiques</h3>
+                <p class="text-gray-600 mb-4">Suivez votre progression et identifiez vos points faibles</p>
+                <div class="flex items-center text-sm text-gray-500">
+                    <i class="fas fa-sync text-purple-500 mr-2"></i>
+                    <span>Mise à jour en temps réel</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section Sujets par matière -->
+    <div class="bg-gray-50 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-gray-900 mb-8">Sujets par matière</h2>
+            
+            <!-- Filtres -->
+            <div class="mb-8 flex flex-wrap gap-4">
+                <select class="form-select rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                    <option value="">Sélectionner un examen</option>
+                    <option value="bepc">BEPC</option>
+                    <option value="bac">BAC</option>
+                </select>
+                <select class="form-select rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                    <option value="">Toutes les années</option>
+                    <option value="2025">2025</option>
+                    <option value="2024">2024</option>
+                    <option value="2023">2023</option>
+                </select>
+            </div>
+
+            <!-- Grille des matières -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Mathématiques -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="bg-blue-600 p-4 flex justify-between items-center">
+                        <h3 class="text-lg font-semibold text-white flex items-center">
+                            <i class="fas fa-square-root-alt mr-2"></i>
+                            Mathématiques
+                        </h3>
+                        <span class="bg-blue-500 text-white px-2 py-1 rounded text-sm">
+                            15 sujets
+                        </span>
+                    </div>
+                    <div class="p-4">
+                        <ul class="space-y-3">
+                            <li class="flex items-center justify-between">
+                                <span class="text-gray-600">BEPC 2025 - 2ème tour</span>
+                                <div class="flex space-x-2">
+                                    <button class="text-blue-600 hover:text-blue-800">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                    <button class="text-green-600 hover:text-green-800">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                </div>
+                            </li>
+                            <li class="flex items-center justify-between">
+                                <span class="text-gray-600">BEPC 2025 - 1er tour</span>
+                                <div class="flex space-x-2">
+                                    <button class="text-blue-600 hover:text-blue-800">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                    <button class="text-green-600 hover:text-green-800">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                </div>
+                            </li>
+                            <li class="flex items-center justify-between">
+                                <span class="text-gray-600">BEPC 2024 - Session normale</span>
+                                <div class="flex space-x-2">
+                                    <button class="text-blue-600 hover:text-blue-800">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                    <button class="text-green-600 hover:text-green-800">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                </div>
+                            </li>
+                        </ul>
+                        <button class="mt-4 w-full text-center text-blue-600 hover:text-blue-800 text-sm">
+                            Voir tous les sujets →
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Physique-Chimie -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="bg-green-600 p-4 flex justify-between items-center">
+                        <h3 class="text-lg font-semibold text-white flex items-center">
+                            <i class="fas fa-flask mr-2"></i>
+                            Physique-Chimie
+                        </h3>
+                        <span class="bg-green-500 text-white px-2 py-1 rounded text-sm">
+                            12 sujets
+                        </span>
+                    </div>
+                    <div class="p-4">
+                        <ul class="space-y-3">
+                            <li class="flex items-center justify-between">
+                                <span class="text-gray-600">BAC D 2025</span>
+                                <div class="flex space-x-2">
+                                    <button class="text-blue-600 hover:text-blue-800">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                    <button class="text-green-600 hover:text-green-800">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                </div>
+                            </li>
+                            <li class="flex items-center justify-between">
+                                <span class="text-gray-600">BAC C 2025</span>
+                                <div class="flex space-x-2">
+                                    <button class="text-blue-600 hover:text-blue-800">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                    <button class="text-green-600 hover:text-green-800">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                </div>
+                            </li>
+                            <li class="flex items-center justify-between">
+                                <span class="text-gray-600">BAC D 2024</span>
+                                <div class="flex space-x-2">
+                                    <button class="text-blue-600 hover:text-blue-800">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                    <button class="text-green-600 hover:text-green-800">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                </div>
+                            </li>
+                        </ul>
+                        <button class="mt-4 w-full text-center text-blue-600 hover:text-blue-800 text-sm">
+                            Voir tous les sujets →
+                        </button>
+                    </div>
+                </div>
+
+                <!-- SVT -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="bg-orange-500 p-4 flex justify-between items-center">
+                        <h3 class="text-lg font-semibold text-white flex items-center">
+                            <i class="fas fa-leaf mr-2"></i>
+                            SVT
+                        </h3>
+                        <span class="bg-orange-400 text-white px-2 py-1 rounded text-sm">
+                            10 sujets
+                        </span>
+                    </div>
+                    <div class="p-4">
+                        <ul class="space-y-3">
+                            <li class="flex items-center justify-between">
+                                <span class="text-gray-600">BAC D 2025</span>
+                                <div class="flex space-x-2">
+                                    <button class="text-blue-600 hover:text-blue-800">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                    <button class="text-green-600 hover:text-green-800">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                </div>
+                            </li>
+                            <li class="flex items-center justify-between">
+                                <span class="text-gray-600">BEPC 2025</span>
+                                <div class="flex space-x-2">
+                                    <button class="text-blue-600 hover:text-blue-800">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                    <button class="text-green-600 hover:text-green-800">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                </div>
+                            </li>
+                            <li class="flex items-center justify-between">
+                                <span class="text-gray-600">BAC D 2024</span>
+                                <div class="flex space-x-2">
+                                    <button class="text-blue-600 hover:text-blue-800">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                    <button class="text-green-600 hover:text-green-800">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                </div>
+                            </li>
+                        </ul>
+                        <button class="mt-4 w-full text-center text-blue-600 hover:text-blue-800 text-sm">
+                            Voir tous les sujets →
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section Simulation d'examen -->
+    <div class="bg-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Simulation d'examen</h2>
+                <p class="text-xl text-gray-500">Entraînez-vous dans les conditions réelles de l'examen</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- BEPC -->
+                <div class="bg-gray-50 rounded-xl p-6">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-graduation-cap text-2xl text-blue-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-900">Simulation BEPC</h3>
+                            <p class="text-gray-500">4 heures d'épreuve</p>
+                        </div>
+                    </div>
+                    <ul class="space-y-3 mb-6">
+                        <li class="flex items-center text-gray-600">
+                            <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                            Sujets officiels des années précédentes
+                        </li>
+                        <li class="flex items-center text-gray-600">
+                            <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                            Chronomètre et alertes temps
+                        </li>
+                        <li class="flex items-center text-gray-600">
+                            <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                            Correction immédiate
+                        </li>
+                    </ul>
+                    <button class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                        Commencer une simulation
+                    </button>
+                </div>
+
+                <!-- BAC -->
+                <div class="bg-gray-50 rounded-xl p-6">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-user-graduate text-2xl text-orange-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-900">Simulation BAC</h3>
+                            <p class="text-gray-500">4 heures d'épreuve</p>
+                        </div>
+                    </div>
+                    <ul class="space-y-3 mb-6">
+                        <li class="flex items-center text-gray-600">
+                            <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                            Sujets par série (A, B, C, D, G)
+                        </li>
+                        <li class="flex items-center text-gray-600">
+                            <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                            Environnement d'examen réaliste
+                        </li>
+                        <li class="flex items-center text-gray-600">
+                            <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                            Analyse détaillée des résultats
+                        </li>
+                    </ul>
+                    <button class="w-full bg-orange-500 text-white py-3 rounded-lg font-semibold hover:bg-orange-600 transition-colors">
+                        Commencer une simulation
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section Statistiques -->
+    <div class="bg-gray-50 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-gray-900 mb-8">Vos statistiques</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <!-- Stat 1 -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-clock text-blue-600"></i>
+                        </div>
+                        <span class="text-3xl font-bold text-gray-900">24h</span>
+                    </div>
+                    <h4 class="text-gray-500 text-sm">Temps total de révision</h4>
+                </div>
+
+                <!-- Stat 2 -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-check-circle text-green-600"></i>
+                        </div>
+                        <span class="text-3xl font-bold text-gray-900">85%</span>
+                    </div>
+                    <h4 class="text-gray-500 text-sm">Taux de réussite moyen</h4>
+                </div>
+
+                <!-- Stat 3 -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-file-alt text-orange-600"></i>
+                        </div>
+                        <span class="text-3xl font-bold text-gray-900">12</span>
+                    </div>
+                    <h4 class="text-gray-500 text-sm">Simulations complétées</h4>
+                </div>
+
+                <!-- Stat 4 -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-star text-purple-600"></i>
+                        </div>
+                        <span class="text-3xl font-bold text-gray-900">15.5</span>
+                    </div>
+                    <h4 class="text-gray-500 text-sm">Moyenne générale</h4>
+                </div>
+            </div>
+
+            <!-- Graphique de progression -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Progression par matière</h3>
+                <div class="space-y-4">
+                    <!-- Mathématiques -->
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-gray-700">Mathématiques</span>
+                            <span class="text-sm font-medium text-gray-700">85%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="bg-blue-600 h-2.5 rounded-full" style="width: 85%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Physique-Chimie -->
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-gray-700">Physique-Chimie</span>
+                            <span class="text-sm font-medium text-gray-700">75%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="bg-green-600 h-2.5 rounded-full" style="width: 75%"></div>
+                        </div>
+                    </div>
+
+                    <!-- SVT -->
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-gray-700">SVT</span>
+                            <span class="text-sm font-medium text-gray-700">90%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="bg-orange-500 h-2.5 rounded-full" style="width: 90%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer"></div>
+
+    <script>
+        // Charger le header
+        fetch('header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header').innerHTML = data;
+                
+                // Initialiser les fonctionnalités du header après son chargement
+                const mobileMenuButton = document.querySelector('.mobile-menu-button');
+                const mobileMenu = document.querySelector('#mobile-menu');
+                
+                if (mobileMenuButton && mobileMenu) {
+                    mobileMenuButton.addEventListener('click', () => {
+                        mobileMenu.classList.toggle('hidden');
+                    });
+                }
+
+                const themeToggle = document.querySelector('#theme-toggle');
+                if (themeToggle) {
+                    themeToggle.addEventListener('click', () => {
+                        document.body.classList.toggle('dark');
+                        const icon = themeToggle.querySelector('i');
+                        if (icon) {
+                            icon.classList.toggle('fa-moon');
+                            icon.classList.toggle('fa-sun');
+                        }
+                    });
+                }
+            });
+
+        // Charger le footer
+        fetch('footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer').innerHTML = data;
+            });
+    </script>
+</body>
+</html> 

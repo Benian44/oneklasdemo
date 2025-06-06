@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OneKlas - Plateforme Éducative</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-gray-50">
+    <div id="header"></div>
+
+    <!-- Hero Section -->
+    <div class="hero-gradient text-white">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+            <div class="lg:grid lg:grid-cols-2 lg:gap-8 items-center">
+                <div>
+                    <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl mb-4">
+                        La plateforme d'apprentissage intelligente
+                    </h1>
+                    <p class="text-xl text-blue-100 mb-8">
+                        Cours adaptés, mentorat personnalisé et préparation efficace aux examens pour les collégiens et lycéens.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button class="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-md text-lg font-medium flex items-center justify-center">
+                            <i class="fas fa-play-circle mr-2"></i> Démarrer maintenant
+                        </button>
+                        <button class="bg-white hover:bg-gray-100 text-blue-800 px-6 py-3 rounded-md text-lg font-medium flex items-center justify-center">
+                            <i class="fas fa-info-circle mr-2"></i> En savoir plus
+                        </button>
+                    </div>
+                </div>
+                <div class="mt-12 lg:mt-0">
+                    <img src="https://images.unsplash.com/photo-1581726690015-c9861fa5057f?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Étudiants apprenant" class="rounded-lg shadow-xl">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Level Selection -->
+    <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                Sélectionnez votre niveau d'études
+            </h2>
+            <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+                Choisissez votre cycle pour accéder aux cours et ressources adaptés
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- First Cycle -->
+            <div class="bg-white shadow-lg rounded-lg overflow-hidden border border-blue-200">
+                <div class="bg-blue-800 p-6">
+                    <h3 class="text-2xl font-bold text-white">
+                        <i class="fas fa-school mr-2"></i> Premier Cycle (Collège)
+                    </h3>
+                </div>
+                <div class="p-6">
+                    <h4 class="text-lg font-semibold text-gray-800 mb-4">Classes disponibles :</h4>
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <button class="bg-blue-100 text-blue-800 px-4 py-2 rounded-md hover:bg-blue-200 transition-colors">
+                            <i class="fas fa-user-graduate mr-2"></i> 6ème
+                        </button>
+                        <button class="bg-blue-100 text-blue-800 px-4 py-2 rounded-md hover:bg-blue-200 transition-colors">
+                            <i class="fas fa-user-graduate mr-2"></i> 5ème
+                        </button>
+                        <button class="bg-blue-100 text-blue-800 px-4 py-2 rounded-md hover:bg-blue-200 transition-colors">
+                            <i class="fas fa-user-graduate mr-2"></i> 4ème
+                        </button>
+                        <button class="bg-blue-100 text-blue-800 px-4 py-2 rounded-md hover:bg-blue-200 transition-colors">
+                            <i class="fas fa-user-graduate mr-2"></i> 3ème
+                        </button>
+                    </div>
+                    <h4 class="text-lg font-semibold text-gray-800 mb-4">Matières principales :</h4>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">Français</span>
+                        <span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">Mathématiques</span>
+                        <span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">Histoire-Géo</span>
+                        <span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">Anglais</span>
+                        <span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">Physique-Chimie</span>
+                        <span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">SVT</span>
+                        <span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">Espagnol</span>
+                        <span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">Allemand</span>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-6 py-4 flex justify-end">
+                    <button class="bg-blue-800 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-arrow-right mr-2"></i> Continuer
+                    </button>
+                </div>
+            </div>
+
+            <!-- Second Cycle -->
+            <div class="bg-white shadow-lg rounded-lg overflow-hidden border border-blue-200">
+                <div class="bg-orange-500 p-6">
+                    <h3 class="text-2xl font-bold text-white">
+                        <i class="fas fa-graduation-cap mr-2"></i> Second Cycle (Lycée)
+                    </h3>
+                </div>
+                <div class="p-6">
+                    <h4 class="text-lg font-semibold text-gray-800 mb-4">Classes disponibles :</h4>
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div class="space-y-2">
+                            <h5 class="font-medium text-gray-700">Seconde</h5>
+                            <button class="w-full bg-orange-100 text-orange-800 px-4 py-2 rounded-md hover:bg-orange-200 transition-colors">
+                                <i class="fas fa-user-graduate mr-2"></i> 2nde A
+                            </button>
+                            <button class="w-full bg-orange-100 text-orange-800 px-4 py-2 rounded-md hover:bg-orange-200 transition-colors">
+                                <i class="fas fa-user-graduate mr-2"></i> 2nde C
+                            </button>
+                            <button class="w-full bg-orange-100 text-orange-800 px-4 py-2 rounded-md hover:bg-orange-200 transition-colors">
+                                <i class="fas fa-user-graduate mr-2"></i> 2nde AB
+                            </button>
+                            <button class="w-full bg-orange-100 text-orange-800 px-4 py-2 rounded-md hover:bg-orange-200 transition-colors">
+                                <i class="fas fa-user-graduate mr-2"></i> 2nde G1
+                            </button>
+                            <button class="w-full bg-orange-100 text-orange-800 px-4 py-2 rounded-md hover:bg-orange-200 transition-colors">
+                                <i class="fas fa-user-graduate mr-2"></i> 2nde G2
+                            </button>
+                        </div>
+                        <div class="space-y-2">
+                            <h5 class="font-medium text-gray-700">Première</h5>
+                            <button class="w-full bg-orange-100 text-orange-800 px-4 py-2 rounded-md hover:bg-orange-200 transition-colors">
+                                <i class="fas fa-user-graduate mr-2"></i> 1ère A1/A2
+                            </button>
+                            <button class="w-full bg-orange-100 text-orange-800 px-4 py-2 rounded-md hover:bg-orange-200 transition-colors">
+                                <i class="fas fa-user-graduate mr-2"></i> 1ère B
+                            </button>
+                            <button class="w-full bg-orange-100 text-orange-800 px-4 py-2 rounded-md hover:bg-orange-200 transition-colors">
+                                <i class="fas fa-user-graduate mr-2"></i> 1ère C/D
+                            </button>
+                            <button class="w-full bg-orange-100 text-orange-800 px-4 py-2 rounded-md hover:bg-orange-200 transition-colors">
+                                <i class="fas fa-user-graduate mr-2"></i> 1ère G1/G2
+                            </button>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="space-y-2">
+                            <h5 class="font-medium text-gray-700">Terminale</h5>
+                            <button class="w-full bg-orange-100 text-orange-800 px-4 py-2 rounded-md hover:bg-orange-200 transition-colors">
+                                <i class="fas fa-user-graduate mr-2"></i> Tle A1/A2
+                            </button>
+                            <button class="w-full bg-orange-100 text-orange-800 px-4 py-2 rounded-md hover:bg-orange-200 transition-colors">
+                                <i class="fas fa-user-graduate mr-2"></i> Tle B
+                            </button>
+                            <button class="w-full bg-orange-100 text-orange-800 px-4 py-2 rounded-md hover:bg-orange-200 transition-colors">
+                                <i class="fas fa-user-graduate mr-2"></i> Tle C/D
+                            </button>
+                            <button class="w-full bg-orange-100 text-orange-800 px-4 py-2 rounded-md hover:bg-orange-200 transition-colors">
+                                <i class="fas fa-user-graduate mr-2"></i> Tle G1/G2
+                            </button>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-semibold text-gray-800 mb-4">Matières spécifiques :</h4>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">Philosophie</span>
+                                <span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">Sciences Éco</span>
+                                <span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">Comptabilité</span>
+                                <span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">Mathématiques</span>
+                                <span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">Physique</span>
+                                <span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">SVT</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer"></div>
+
+    <script>
+        // Charger le header
+        fetch('header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header').innerHTML = data;
+                
+                // Initialiser les fonctionnalités du header après son chargement
+                const mobileMenuButton = document.querySelector('.mobile-menu-button');
+                const mobileMenu = document.querySelector('#mobile-menu');
+                
+                if (mobileMenuButton && mobileMenu) {
+                    mobileMenuButton.addEventListener('click', () => {
+                        mobileMenu.classList.toggle('hidden');
+                    });
+                }
+
+                const themeToggle = document.querySelector('#theme-toggle');
+                if (themeToggle) {
+                    themeToggle.addEventListener('click', () => {
+                        document.body.classList.toggle('dark');
+                        const icon = themeToggle.querySelector('i');
+                        if (icon) {
+                            icon.classList.toggle('fa-moon');
+                            icon.classList.toggle('fa-sun');
+                        }
+                    });
+                }
+            });
+
+        // Charger le footer
+        fetch('footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer').innerHTML = data;
+            });
+    </script>
+</body>
+</html> 

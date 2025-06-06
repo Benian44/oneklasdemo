@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OneKlas - Cours</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-gray-50">
+    <div id="header-container"></div>
+
+    <!-- Contenu principal -->
+    <main class="min-h-screen">
+        <!-- Sélection du cycle -->
+        <div class="bg-white shadow-sm">
+            <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-8">
+                    <h2 class="text-2xl font-bold text-gray-900">Sélectionnez votre cycle d'études</h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                    <!-- Premier cycle -->
+                    <div class="cycle-option cursor-pointer bg-white border-2 border-gray-200 rounded-lg p-6 hover:border-blue-500 hover:shadow-lg transition-all" data-cycle="college">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-blue-100 rounded-full p-3">
+                                <i class="fas fa-school text-2xl text-blue-800"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold text-gray-900 ml-4">Premier Cycle</h3>
+                        </div>
+                        <p class="text-gray-600 mb-4">Collège : de la 6ème à la 3ème</p>
+                        <div class="hidden cycle-details">
+                            <div class="mt-4 space-y-2">
+                                <button class="class-btn w-full text-left px-4 py-2 rounded-md hover:bg-blue-50 text-blue-800" data-class="6">6ème</button>
+                                <button class="class-btn w-full text-left px-4 py-2 rounded-md hover:bg-blue-50 text-blue-800" data-class="5">5ème</button>
+                                <button class="class-btn w-full text-left px-4 py-2 rounded-md hover:bg-blue-50 text-blue-800" data-class="4">4ème</button>
+                                <button class="class-btn w-full text-left px-4 py-2 rounded-md hover:bg-blue-50 text-blue-800" data-class="3">3ème</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Second cycle -->
+                    <div class="cycle-option cursor-pointer bg-white border-2 border-gray-200 rounded-lg p-6 hover:border-orange-500 hover:shadow-lg transition-all" data-cycle="lycee">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-orange-100 rounded-full p-3">
+                                <i class="fas fa-graduation-cap text-2xl text-orange-800"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold text-gray-900 ml-4">Second Cycle</h3>
+                        </div>
+                        <p class="text-gray-600 mb-4">Lycée : Séries A, B, C, D et G</p>
+                        <div class="hidden cycle-details">
+                            <div class="mt-4">
+                                <!-- Seconde -->
+                                <div class="mb-4">
+                                    <h4 class="text-sm font-semibold text-gray-700 mb-2">Seconde</h4>
+                                    <div class="space-y-2">
+                                        <button class="class-btn w-full text-left px-4 py-2 rounded-md hover:bg-orange-50 text-orange-800" data-class="2ndA">2nde A</button>
+                                        <button class="class-btn w-full text-left px-4 py-2 rounded-md hover:bg-orange-50 text-orange-800" data-class="2ndC">2nde C</button>
+                                        <button class="class-btn w-full text-left px-4 py-2 rounded-md hover:bg-orange-50 text-orange-800" data-class="2ndAB">2nde AB</button>
+                                        <button class="class-btn w-full text-left px-4 py-2 rounded-md hover:bg-orange-50 text-orange-800" data-class="2ndG1">2nde G1</button>
+                                        <button class="class-btn w-full text-left px-4 py-2 rounded-md hover:bg-orange-50 text-orange-800" data-class="2ndG2">2nde G2</button>
+                                    </div>
+                                </div>
+                                
+                                <!-- Première -->
+                                <div class="mb-4">
+                                    <h4 class="text-sm font-semibold text-gray-700 mb-2">Première</h4>
+                                    <div class="space-y-2">
+                                        <button class="class-btn w-full text-left px-4 py-2 rounded-md hover:bg-orange-50 text-orange-800" data-class="1ereA1">1ère A1</button>
+                                        <button class="class-btn w-full text-left px-4 py-2 rounded-md hover:bg-orange-50 text-orange-800" data-class="1ereA2">1ère A2</button>
+                                        <button class="class-btn w-full text-left px-4 py-2 rounded-md hover:bg-orange-50 text-orange-800" data-class="1ereC">1ère C</button>
+                                        <button class="class-btn w-full text-left px-4 py-2 rounded-md hover:bg-orange-50 text-orange-800" data-class="1ereD">1ère D</button>
+                                        <button class="class-btn w-full text-left px-4 py-2 rounded-md hover:bg-orange-50 text-orange-800" data-class="1ereB">1ère B</button>
+                                        <button class="class-btn w-full text-left px-4 py-2 rounded-md hover:bg-orange-50 text-orange-800" data-class="1ereG1">1ère G1</button>
+                                        <button class="class-btn w-full text-left px-4 py-2 rounded-md hover:bg-orange-50 text-orange-800" data-class="1ereG2">1ère G2</button>
+                                    </div>
+                                </div>
+
+                                <!-- Terminale -->
+                                <div>
+                                    <h4 class="text-sm font-semibold text-gray-700 mb-2">Terminale</h4>
+                                    <div class="space-y-2">
+                                        <button class="class-btn w-full text-left px-4 py-2 rounded-md hover:bg-orange-50 text-orange-800" data-class="TleA1">Tle A1</button>
+                                        <button class="class-btn w-full text-left px-4 py-2 rounded-md hover:bg-orange-50 text-orange-800" data-class="TleA2">Tle A2</button>
+                                        <button class="class-btn w-full text-left px-4 py-2 rounded-md hover:bg-orange-50 text-orange-800" data-class="TleB">Tle B</button>
+                                        <button class="class-btn w-full text-left px-4 py-2 rounded-md hover:bg-orange-50 text-orange-800" data-class="TleC">Tle C</button>
+                                        <button class="class-btn w-full text-left px-4 py-2 rounded-md hover:bg-orange-50 text-orange-800" data-class="TleD">Tle D</button>
+                                        <button class="class-btn w-full text-left px-4 py-2 rounded-md hover:bg-orange-50 text-orange-800" data-class="TleG1">Tle G1</button>
+                                        <button class="class-btn w-full text-left px-4 py-2 rounded-md hover:bg-orange-50 text-orange-800" data-class="TleG2">Tle G2</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Liste des matières (initialement cachée) -->
+        <div id="subjects-section" class="hidden bg-gray-50 py-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h3 id="class-title" class="text-2xl font-bold text-gray-900 mb-6 text-center"></h3>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <button class="subject-btn bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-all text-center">
+                        <div class="bg-blue-100 rounded-full p-4 mx-auto mb-4 w-16 h-16 flex items-center justify-center">
+                            <i class="fas fa-square-root-alt text-2xl text-blue-800"></i>
+                        </div>
+                        <h4 class="font-semibold text-gray-900">Mathématiques</h4>
+                    </button>
+                    <button class="subject-btn bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-all text-center">
+                        <div class="bg-green-100 rounded-full p-4 mx-auto mb-4 w-16 h-16 flex items-center justify-center">
+                            <i class="fas fa-flask text-2xl text-green-800"></i>
+                        </div>
+                        <h4 class="font-semibold text-gray-900">Physique-Chimie</h4>
+                    </button>
+                    <button class="subject-btn bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-all text-center">
+                        <div class="bg-purple-100 rounded-full p-4 mx-auto mb-4 w-16 h-16 flex items-center justify-center">
+                            <i class="fas fa-dna text-2xl text-purple-800"></i>
+                        </div>
+                        <h4 class="font-semibold text-gray-900">SVT</h4>
+                    </button>
+                    <button class="subject-btn bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-all text-center">
+                        <div class="bg-red-100 rounded-full p-4 mx-auto mb-4 w-16 h-16 flex items-center justify-center">
+                            <i class="fas fa-book text-2xl text-red-800"></i>
+                        </div>
+                        <h4 class="font-semibold text-gray-900">Français</h4>
+                    </button>
+                    <button class="subject-btn bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-all text-center">
+                        <div class="bg-yellow-100 rounded-full p-4 mx-auto mb-4 w-16 h-16 flex items-center justify-center">
+                            <i class="fas fa-globe-africa text-2xl text-yellow-800"></i>
+                        </div>
+                        <h4 class="font-semibold text-gray-900">Histoire-Géo</h4>
+                    </button>
+                    <button class="subject-btn bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-all text-center">
+                        <div class="bg-indigo-100 rounded-full p-4 mx-auto mb-4 w-16 h-16 flex items-center justify-center">
+                            <i class="fas fa-language text-2xl text-indigo-800"></i>
+                        </div>
+                        <h4 class="font-semibold text-gray-900">Anglais</h4>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Liste des cours (initialement cachée) -->
+        <div id="courses-section" class="hidden bg-white py-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 id="subject-title" class="text-2xl font-bold text-gray-900"></h3>
+                    <nav class="flex space-x-4">
+                        <button class="view-type-btn active px-4 py-2 rounded-md text-sm font-medium" data-view="grid">
+                            <i class="fas fa-th-large mr-2"></i>Grille
+                        </button>
+                        <button class="view-type-btn px-4 py-2 rounded-md text-sm font-medium" data-view="list">
+                            <i class="fas fa-list mr-2"></i>Liste
+                        </button>
+                    </nav>
+                </div>
+                
+                <!-- Grille des cours -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Exemple de cours -->
+                    <div class="course-card bg-white rounded-lg shadow-md overflow-hidden">
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1509228468518-180dd4864904?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Cours" class="w-full h-48 object-cover">
+                            <div class="absolute top-2 right-2">
+                                <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">Chapitre 1</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h4 class="text-lg font-semibold text-gray-900 mb-2">Les nombres entiers</h4>
+                            <p class="text-gray-600 text-sm mb-4">Introduction aux opérations de base</p>
+                            
+                            <!-- Statistiques du cours -->
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="bg-blue-50 text-blue-700 text-xs px-2 py-1 rounded-full flex items-center">
+                                    <i class="fas fa-book-open mr-1"></i>10 leçons
+                                </span>
+                                <span class="bg-green-50 text-green-700 text-xs px-2 py-1 rounded-full flex items-center">
+                                    <i class="fas fa-tasks mr-1"></i>15 exercices
+                                </span>
+                                <span class="bg-purple-50 text-purple-700 text-xs px-2 py-1 rounded-full flex items-center">
+                                    <i class="fas fa-question-circle mr-1"></i>5 quiz
+                                </span>
+                                <span class="bg-red-50 text-red-700 text-xs px-2 py-1 rounded-full flex items-center">
+                                    <i class="fas fa-video mr-1"></i>3 vidéos
+                                </span>
+                            </div>
+
+                            <!-- Actions -->
+                            <div class="flex space-x-2">
+                                <button class="flex-1 bg-blue-800 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700 flex items-center justify-center view-course-btn">
+                                    <i class="fas fa-eye mr-2"></i>Voir
+                                </button>
+                                <button class="bg-gray-100 text-gray-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-200">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="footer-container"></div>
+
+    <!-- Scripts -->
+    <script>
+        // Fonction pour charger un fichier HTML
+        async function loadHTML(url) {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return await response.text();
+            } catch (error) {
+                console.error('Erreur lors du chargement du fichier:', error);
+                return '';
+            }
+        }
+
+        // Fonction pour initialiser les composants
+        async function initComponents() {
+            // Charger le header
+            const headerHTML = await loadHTML('header.html');
+            document.getElementById('header-container').innerHTML = headerHTML;
+
+            // Charger le footer
+            const footerHTML = await loadHTML('footer.html');
+            document.getElementById('footer-container').innerHTML = footerHTML;
+
+            // Initialiser le menu mobile
+            initMobileMenu();
+            
+            // Initialiser le toggle de thème
+            initThemeToggle();
+        }
+
+        // Initialisation du menu mobile
+        function initMobileMenu() {
+            const mobileMenuButton = document.querySelector('.mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (mobileMenuButton && mobileMenu) {
+                const mobileMenuIcon = mobileMenuButton.querySelector('i');
+
+                mobileMenuButton.addEventListener('click', () => {
+                    const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+                    mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
+                    mobileMenu.classList.toggle('hidden');
+                    
+                    if (isExpanded) {
+                        mobileMenuIcon.classList.remove('fa-times');
+                        mobileMenuIcon.classList.add('fa-bars');
+                    } else {
+                        mobileMenuIcon.classList.remove('fa-bars');
+                        mobileMenuIcon.classList.add('fa-times');
+                    }
+                });
+
+                // Fermer le menu mobile lors du clic sur un lien
+                const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+                mobileMenuLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                        mobileMenuButton.setAttribute('aria-expanded', 'false');
+                        mobileMenuIcon.classList.remove('fa-times');
+                        mobileMenuIcon.classList.add('fa-bars');
+                    });
+                });
+            }
+        }
+
+        // Gestion du thème sombre/clair
+        function initThemeToggle() {
+            const themeToggle = document.getElementById('theme-toggle');
+            if (themeToggle) {
+                const body = document.body;
+                const icon = themeToggle.querySelector('i');
+
+                // Vérifier la préférence enregistrée
+                const darkMode = localStorage.getItem('darkMode') === 'true';
+                if (darkMode) {
+                    body.classList.add('dark');
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                }
+
+                themeToggle.addEventListener('click', () => {
+                    body.classList.toggle('dark');
+                    const isDark = body.classList.contains('dark');
+                    localStorage.setItem('darkMode', isDark);
+                    
+                    if (isDark) {
+                        icon.classList.remove('fa-moon');
+                        icon.classList.add('fa-sun');
+                    } else {
+                        icon.classList.remove('fa-sun');
+                        icon.classList.add('fa-moon');
+                    }
+                });
+            }
+        }
+
+        // Initialiser les composants au chargement de la page
+        document.addEventListener('DOMContentLoaded', initComponents);
+
+        // Gestion de la navigation
+        const cycleOptions = document.querySelectorAll('.cycle-option');
+        const classButtons = document.querySelectorAll('.class-btn');
+        const subjectsSection = document.getElementById('subjects-section');
+        const coursesSection = document.getElementById('courses-section');
+        const classTitle = document.getElementById('class-title');
+        const subjectTitle = document.getElementById('subject-title');
+
+        // Sélection du cycle
+        cycleOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                // Réinitialiser tous les cycles
+                cycleOptions.forEach(opt => {
+                    opt.classList.remove('border-blue-500', 'border-orange-500');
+                    opt.querySelector('.cycle-details').classList.add('hidden');
+                });
+
+                // Activer le cycle sélectionné
+                const isSenior = this.dataset.cycle === 'lycee';
+                this.classList.add(isSenior ? 'border-orange-500' : 'border-blue-500');
+                this.querySelector('.cycle-details').classList.remove('hidden');
+
+                // Cacher les sections suivantes
+                subjectsSection.classList.add('hidden');
+                coursesSection.classList.add('hidden');
+            });
+        });
+
+        // Sélection de la classe
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('class-btn')) {
+                const className = e.target.textContent;
+                const classCode = e.target.dataset.class;
+                
+                // Mettre à jour le titre
+                classTitle.textContent = `${className} - Sélectionnez une matière`;
+                
+                // Afficher la section des matières
+                subjectsSection.classList.remove('hidden');
+                coursesSection.classList.add('hidden');
+
+                // Faire défiler jusqu'à la section des matières
+                subjectsSection.scrollIntoView({ behavior: 'smooth' });
+
+                // Stocker la classe sélectionnée pour référence ultérieure
+                subjectsSection.dataset.selectedClass = classCode;
+            }
+        });
+
+        // Sélection de la matière
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.subject-btn')) {
+                const subjectBtn = e.target.closest('.subject-btn');
+                const subjectName = subjectBtn.querySelector('h4').textContent;
+                const selectedClass = subjectsSection.dataset.selectedClass;
+                
+                // Mettre à jour le titre de la section des cours
+                subjectTitle.textContent = `${subjectName} - ${selectedClass}`;
+                
+                // Afficher la section des cours
+                coursesSection.classList.remove('hidden');
+                
+                // Faire défiler jusqu'à la section des cours
+                coursesSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+
+        // Gestion des vues (grille/liste)
+        const viewButtons = document.querySelectorAll('.view-type-btn');
+        viewButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                viewButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Gestion du modal
+        const courseModal = document.getElementById('course-modal');
+        const viewCourseButtons = document.querySelectorAll('.view-course-btn');
+
+        viewCourseButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                courseModal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        function closeModal() {
+            courseModal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Gestion des onglets dans le modal
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Désactiver tous les onglets
+                tabButtons.forEach(btn => {
+                    btn.classList.remove('active', 'border-blue-500', 'text-blue-600');
+                    btn.classList.add('text-gray-500');
+                });
+                tabContents.forEach(content => content.classList.add('hidden'));
+
+                // Activer l'onglet sélectionné
+                this.classList.add('active', 'border-blue-500', 'text-blue-600');
+                this.classList.remove('text-gray-500');
+                const tabId = this.getAttribute('data-tab');
+                document.getElementById(`${tabId}-content`).classList.remove('hidden');
+            });
+        });
+
+        // Fermer le modal en cliquant en dehors
+        courseModal.addEventListener('click', (e) => {
+            if (e.target === courseModal) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html> 

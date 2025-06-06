@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OneKlas - Mentorat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-gray-50">
+    <div id="header-container"></div>
+
+    <!-- Hero Section -->
+    <div class="hero-gradient text-white">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl mb-4">
+                    Mentorat personnalisé
+                </h1>
+                <p class="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
+                    Bénéficiez d'un accompagnement sur mesure avec nos mentors qualifiés, en présentiel ou en ligne.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Formulaire de mentorat -->
+    <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <div class="bg-white rounded-lg shadow-xl overflow-hidden">
+            <div class="p-6 sm:p-8">
+                <!-- Format de mentorat -->
+                <div class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6">Choisissez votre format</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Présentiel -->
+                        <div class="format-option border-2 border-gray-200 rounded-lg p-6 cursor-pointer hover:border-blue-500 transition-all" data-format="presentiel">
+                            <div class="flex items-center mb-4">
+                                <div class="bg-blue-100 rounded-full p-3">
+                                    <i class="fas fa-home text-2xl text-blue-800"></i>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-900 ml-4">Présentiel (à domicile)</h3>
+                            </div>
+                            <p class="text-gray-600 mb-4">Cours particuliers à votre domicile avec un mentor dédié</p>
+                            <div class="flex items-center text-sm text-gray-500">
+                                <i class="fas fa-info-circle mr-2 text-blue-500"></i>
+                                <span>Disponible dans les principales villes</span>
+                            </div>
+                        </div>
+
+                        <!-- En ligne -->
+                        <div class="format-option border-2 border-gray-200 rounded-lg p-6 cursor-pointer hover:border-blue-500 transition-all" data-format="enligne">
+                            <div class="flex items-center mb-4">
+                                <div class="bg-green-100 rounded-full p-3">
+                                    <i class="fas fa-video text-2xl text-green-800"></i>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-900 ml-4">En ligne (via visio)</h3>
+                            </div>
+                            <p class="text-gray-600 mb-4">Cours en visioconférence avec des outils interactifs</p>
+                            <div class="flex items-center text-sm text-gray-500">
+                                <i class="fas fa-wifi mr-2 text-green-500"></i>
+                                <span>Nécessite une connexion internet stable</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grille tarifaire -->
+                <div class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6">Grille tarifaire</h2>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead>
+                                <tr>
+                                    <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre de matières</th>
+                                    <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Prix total (Présentiel)</th>
+                                    <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Prix unitaire (Présentiel)</th>
+                                    <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Prix total (En ligne)</th>
+                                    <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Prix unitaire (En ligne)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">1 matière</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">40 000 FCFA</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">40 000 FCFA</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">15 000 FCFA</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">15 000 FCFA</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">2 matières</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">70 000 FCFA</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">35 000 FCFA</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">24 000 FCFA</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">12 000 FCFA</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">3 matières</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">90 000 FCFA</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">30 000 FCFA</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">30 000 FCFA</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">10 000 FCFA</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">4 matières ou +</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">100 000 FCFA</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">25 000 FCFA</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">32 000 FCFA</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">8 000 FCFA</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Formulaire de demande -->
+                <form id="mentoratForm" class="space-y-8">
+                    <!-- Classe -->
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Votre classe</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <select class="form-select block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" required>
+                                <option value="">Sélectionnez votre classe</option>
+                                <optgroup label="Premier cycle">
+                                    <option value="6">6ème</option>
+                                    <option value="5">5ème</option>
+                                    <option value="4">4ème</option>
+                                    <option value="3">3ème</option>
+                                </optgroup>
+                                <optgroup label="Second cycle">
+                                    <option value="2ndA">2nde A</option>
+                                    <option value="2ndC">2nde C</option>
+                                    <option value="2ndAB">2nde AB</option>
+                                    <option value="2ndG1">2nde G1</option>
+                                    <option value="2ndG2">2nde G2</option>
+                                    <option value="1ereA1">1ère A1</option>
+                                    <option value="1ereA2">1ère A2</option>
+                                    <option value="1ereC">1ère C</option>
+                                    <option value="1ereD">1ère D</option>
+                                    <option value="1ereB">1ère B</option>
+                                    <option value="1ereG1">1ère G1</option>
+                                    <option value="1ereG2">1ère G2</option>
+                                    <option value="TleA1">Tle A1</option>
+                                    <option value="TleA2">Tle A2</option>
+                                    <option value="TleB">Tle B</option>
+                                    <option value="TleC">Tle C</option>
+                                    <option value="TleD">Tle D</option>
+                                    <option value="TleG1">Tle G1</option>
+                                    <option value="TleG2">Tle G2</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Matières -->
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Matières souhaitées</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <label class="flex items-center space-x-3">
+                                <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600" name="matieres" value="mathematiques">
+                                <span class="text-gray-700">Mathématiques</span>
+                            </label>
+                            <label class="flex items-center space-x-3">
+                                <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600" name="matieres" value="physique">
+                                <span class="text-gray-700">Physique-Chimie</span>
+                            </label>
+                            <label class="flex items-center space-x-3">
+                                <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600" name="matieres" value="svt">
+                                <span class="text-gray-700">SVT</span>
+                            </label>
+                            <label class="flex items-center space-x-3">
+                                <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600" name="matieres" value="francais">
+                                <span class="text-gray-700">Français</span>
+                            </label>
+                            <label class="flex items-center space-x-3">
+                                <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600" name="matieres" value="anglais">
+                                <span class="text-gray-700">Anglais</span>
+                            </label>
+                            <label class="flex items-center space-x-3">
+                                <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600" name="matieres" value="histgeo">
+                                <span class="text-gray-700">Histoire-Géo</span>
+                            </label>
+                            <label class="flex items-center space-x-3">
+                                <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600" name="matieres" value="philosophie">
+                                <span class="text-gray-700">Philosophie</span>
+                            </label>
+                            <label class="flex items-center space-x-3">
+                                <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600" name="matieres" value="ses">
+                                <span class="text-gray-700">SES</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Disponibilités -->
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Vos disponibilités</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Jours préférés</label>
+                                <div class="space-y-2">
+                                    <label class="flex items-center space-x-3">
+                                        <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600" name="jours" value="lundi">
+                                        <span class="text-gray-700">Lundi</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3">
+                                        <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600" name="jours" value="mardi">
+                                        <span class="text-gray-700">Mardi</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3">
+                                        <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600" name="jours" value="mercredi">
+                                        <span class="text-gray-700">Mercredi</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3">
+                                        <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600" name="jours" value="jeudi">
+                                        <span class="text-gray-700">Jeudi</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3">
+                                        <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600" name="jours" value="vendredi">
+                                        <span class="text-gray-700">Vendredi</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3">
+                                        <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600" name="jours" value="samedi">
+                                        <span class="text-gray-700">Samedi</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Créneaux horaires</label>
+                                <div class="space-y-2">
+                                    <label class="flex items-center space-x-3">
+                                        <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600" name="horaires" value="8-10">
+                                        <span class="text-gray-700">8h - 10h</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3">
+                                        <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600" name="horaires" value="10-12">
+                                        <span class="text-gray-700">10h - 12h</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3">
+                                        <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600" name="horaires" value="14-16">
+                                        <span class="text-gray-700">14h - 16h</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3">
+                                        <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600" name="horaires" value="16-18">
+                                        <span class="text-gray-700">16h - 18h</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3">
+                                        <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600" name="horaires" value="18-20">
+                                        <span class="text-gray-700">18h - 20h</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Zone géographique (pour le présentiel) -->
+                    <div id="zoneGeographique" class="hidden">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Zone géographique</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Ville</label>
+                                <select class="form-select block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" required>
+                                    <option value="">Sélectionnez votre ville</option>
+                                    <option value="dakar">Dakar</option>
+                                    <option value="thies">Thiès</option>
+                                    <option value="rufisque">Rufisque</option>
+                                    <option value="mbour">Mbour</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Quartier</label>
+                                <input type="text" class="form-input block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Entrez votre quartier" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Récapitulatif et prix -->
+                    <div class="bg-gray-50 p-6 rounded-lg">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Récapitulatif</h3>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">Format sélectionné :</span>
+                                <span class="font-medium text-gray-900" id="formatSelected">-</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">Nombre de matières :</span>
+                                <span class="font-medium text-gray-900" id="nbMatieres">0</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">Prix total :</span>
+                                <span class="font-medium text-2xl text-blue-800" id="prixTotal">0 FCFA</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bouton de soumission -->
+                    <div class="flex justify-end">
+                        <button type="submit" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-800 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                            <i class="fas fa-check-circle mr-2"></i>
+                            Valider ma demande
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer-container"></div>
+
+    <!-- Scripts -->
+    <script>
+        // Fonction pour charger les composants
+        async function loadComponents() {
+            const headerContainer = document.getElementById('header-container');
+            const footerContainer = document.getElementById('footer-container');
+            
+            try {
+                const [headerResponse, footerResponse] = await Promise.all([
+                    fetch('header.html'),
+                    fetch('footer.html')
+                ]);
+                
+                if (headerResponse.ok && footerResponse.ok) {
+                    const [headerText, footerText] = await Promise.all([
+                        headerResponse.text(),
+                        footerResponse.text()
+                    ]);
+                    
+                    headerContainer.innerHTML = headerText;
+                    footerContainer.innerHTML = footerText;
+                }
+            } catch (error) {
+                console.error('Erreur lors du chargement des composants:', error);
+            }
+        }
+
+        // Gestion du format de mentorat
+        const formatOptions = document.querySelectorAll('.format-option');
+        const zoneGeographique = document.getElementById('zoneGeographique');
+        const formatSelected = document.getElementById('formatSelected');
+        
+        formatOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                // Réinitialiser toutes les options
+                formatOptions.forEach(opt => opt.classList.remove('border-blue-500'));
+                
+                // Activer l'option sélectionnée
+                option.classList.add('border-blue-500');
+                
+                // Afficher/masquer la zone géographique
+                const format = option.dataset.format;
+                zoneGeographique.classList.toggle('hidden', format !== 'presentiel');
+                
+                // Mettre à jour le récapitulatif
+                formatSelected.textContent = format === 'presentiel' ? 'Présentiel' : 'En ligne';
+                
+                // Recalculer le prix
+                calculerPrix();
+            });
+        });
+
+        // Gestion des matières
+        const checkboxesMatieres = document.querySelectorAll('input[name="matieres"]');
+        const nbMatieres = document.getElementById('nbMatieres');
+        const prixTotal = document.getElementById('prixTotal');
+
+        checkboxesMatieres.forEach(checkbox => {
+            checkbox.addEventListener('change', calculerPrix);
+        });
+
+        function calculerPrix() {
+            const format = document.querySelector('.format-option.border-blue-500')?.dataset.format;
+            const nombreMatieres = document.querySelectorAll('input[name="matieres"]:checked').length;
+            
+            nbMatieres.textContent = nombreMatieres;
+            
+            let prix = 0;
+            if (format === 'presentiel') {
+                if (nombreMatieres === 1) prix = 40000;
+                else if (nombreMatieres === 2) prix = 70000;
+                else if (nombreMatieres === 3) prix = 90000;
+                else if (nombreMatieres >= 4) prix = 100000;
+            } else if (format === 'enligne') {
+                if (nombreMatieres === 1) prix = 15000;
+                else if (nombreMatieres === 2) prix = 24000;
+                else if (nombreMatieres === 3) prix = 30000;
+                else if (nombreMatieres >= 4) prix = 32000;
+            }
+            
+            prixTotal.textContent = `${prix.toLocaleString()} FCFA`;
+        }
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', () => {
+            loadComponents();
+        });
+
+        // Gestion du formulaire
+        document.getElementById('mentoratForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Ici, vous pouvez ajouter la logique pour traiter le formulaire
+            alert('Votre demande a été enregistrée. Nous vous contacterons rapidement pour finaliser votre inscription.');
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,121 @@
+/* Import de la police Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Styles de base */
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Mode sombre */
+.dark {
+    background-color: #1a1a1a;
+    color: #ffffff;
+}
+
+.dark .bg-white {
+    background-color: #2d2d2d;
+}
+
+.dark .text-gray-900 {
+    color: #ffffff;
+}
+
+.dark .text-gray-600,
+.dark .text-gray-500 {
+    color: #a0aec0;
+}
+
+.dark .bg-gray-50 {
+    background-color: #1f1f1f;
+}
+
+.dark .border-gray-200 {
+    border-color: #404040;
+}
+
+/* Composants spécifiques */
+.hero-gradient {
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+}
+
+/* Animations et transitions */
+.subject-card:hover,
+.cycle-option:hover,
+.course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.subject-card,
+.cycle-option,
+.course-card,
+.mentoring-option {
+    transition: all 0.3s ease;
+}
+
+/* Barres de progression */
+.progress-bar {
+    background-color: #e0e0e0;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #3b82f6;
+    border-radius: 8px;
+    transition: width 0.5s ease;
+}
+
+/* Options de mentorat */
+.mentoring-option:hover {
+    border-color: #3b82f6;
+}
+
+.mentoring-option.active {
+    border-color: #3b82f6;
+    background-color: #eff6ff;
+}
+
+/* Navigation */
+.nav-item {
+    position: relative;
+}
+
+.nav-item::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #3b82f6;
+    transition: width 0.3s ease;
+}
+
+.nav-item:hover::after {
+    width: 100%;
+}
+
+/* Boutons de vue (grille/liste) */
+.view-type-btn.active {
+    background-color: #1e40af;
+    color: white;
+}
+
+/* Onglets */
+.tab-btn.active {
+    border-bottom-width: 2px;
+}
+
+/* Aspect ratio pour les vidéos */
+.aspect-w-16 {
+    position: relative;
+    padding-bottom: 56.25%;
+}
+
+.aspect-w-16 > div {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+} 
