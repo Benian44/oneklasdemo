@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OneKlas - Connexion</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .bg-gradient-oneklas {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        }
+        .input-focus:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.5);
+        }
+        .shake-animation {
+            animation: shake 0.5s;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+        .phone-prefix {
+            @apply absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500;
+        }
+        .phone-input {
+            @apply pl-12 !important;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-md">
+        <!-- Logo & Header -->
+        <div class="text-center mb-8">
+            <div class="w-auto h-20 mx-auto flex items-center justify-center mb-4">
+                <img src="assets/logo.png" alt="OneKlas" class="h-full w-auto" style="object-fit: contain; max-width: 300px;">
+            </div>
+            <p class="text-gray-600 mt-2">Connectez-vous pour accéder à votre espace éducatif</p>
+        </div>
+
+        <!-- Login Card -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+            <div class="p-8">
+                <form id="loginForm" class="space-y-6">
+                    <!-- Téléphone -->
+                    <div>
+                        <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Numéro de téléphone</label>
+                        <div class="relative">
+                            <span class="phone-prefix">+225</span>
+                            <input 
+                                type="tel" 
+                                id="phone" 
+                                name="phone" 
+                                placeholder="0X XX XX XX XX"
+                                pattern="^0[1-8][0-9]{8}$"
+                                class="phone-input input-focus py-3 bg-gray-50 w-full rounded-lg border border-gray-300 focus:border-indigo-500 transition duration-200"
+                                required
+                                maxlength="10"
+                                onkeyup="validatePhoneNumber(this)"
+                            >
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">Format: 0X XX XX XX XX (X = chiffre)</p>
+                        <p id="phone-error" class="text-red-500 text-sm mt-1"></p>
+                    </div>
+
+                    <!-- Mot de passe -->
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Mot de passe</label>
+                        <div class="relative">
+                            <input 
+                                type="password" 
+                                id="password" 
+                                name="password" 
+                                placeholder="••••••••" 
+                                class="input-focus py-3 bg-gray-50 w-full rounded-lg border border-gray-300 focus:border-indigo-500 transition duration-200 pr-10"
+                                required
+                                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                            >
+                            <button type="button" class="absolute right-3 top-3 text-gray-400 hover:text-gray-600" id="togglePassword">
+                                <i class="far fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="flex justify-between mt-1">
+                            <p class="text-sm text-gray-500">Au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial</p>
+                            <a href="#" class="text-sm text-indigo-600 hover:text-indigo-500 hover:underline">Mot de passe oublié ?</a>
+                        </div>
+                    </div>
+
+                    <!-- Bouton de connexion -->
+                    <button 
+                        type="submit"
+                        class="w-full bg-gradient-oneklas text-white py-3 px-4 rounded-lg font-medium hover:opacity-90 transition duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+                    >
+                        <i class="fas fa-sign-in-alt mr-2"></i> Se connecter
+                    </button>
+                </form>
+
+                <!-- Message d'erreur -->
+                <div id="errorMessage" class="hidden mt-4 p-3 bg-red-50 text-red-700 rounded-lg border border-red-200 text-sm"></div>
+
+                <!-- Séparateur -->
+                <div class="flex items-center my-6">
+                    <div class="flex-grow border-t border-gray-300"></div>
+                    <span class="flex-shrink mx-2 text-gray-500 text-sm">OU</span>
+                    <div class="flex-grow border-t border-gray-300"></div>
+                </div>
+
+                <!-- Lien vers l'inscription -->
+                <div class="text-center">
+                    <p class="text-gray-600 text-sm">Nouveau sur OneKlas ? 
+                        <a href="register.html" class="text-indigo-600 hover:text-indigo-500 font-medium hover:underline">Créer un compte</a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Pied de page -->
+            <div class="bg-gray-50 px-8 py-4">
+                <div class="text-center text-xs text-gray-500">
+                    <p>En vous connectant, vous acceptez nos <a href="#" class="text-indigo-600 hover:underline">Conditions d'utilisation</a></p>
+                    <p class="mt-2">
+                        <a href="index.html" class="text-indigo-600 hover:underline">
+                            <i class="fas fa-arrow-left mr-1"></i>Retour à l'accueil
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginForm = document.getElementById('loginForm');
+            const errorMessage = document.getElementById('errorMessage');
+            const togglePassword = document.getElementById('togglePassword');
+            const passwordInput = document.getElementById('password');
+            const phoneInput = document.getElementById('phone');
+
+            // Validation du numéro de téléphone
+            function validatePhoneNumber(input) {
+                const phoneRegex = /^0[1-8][0-9]{8}$/;
+                const errorElement = document.getElementById(`${input.id}-error`);
+                
+                // Permettre uniquement les chiffres
+                input.value = input.value.replace(/[^\d]/g, '');
+                
+                if (input.value.length > 0) {
+                    if (!input.value.startsWith('0')) {
+                        errorElement.textContent = 'Le numéro doit commencer par 0';
+                        input.classList.add('border-red-500');
+                    } else if (input.value.length > 1 && !['1','2','3','4','5','6','7','8'].includes(input.value[1])) {
+                        errorElement.textContent = 'Le deuxième chiffre doit être entre 1 et 8';
+                        input.classList.add('border-red-500');
+                    } else if (input.value.length === 10) {
+                        if (phoneRegex.test(input.value)) {
+                            errorElement.textContent = '';
+                            input.classList.remove('border-red-500');
+                        } else {
+                            errorElement.textContent = 'Numéro de téléphone invalide';
+                            input.classList.add('border-red-500');
+                        }
+                    } else if (input.value.length < 10) {
+                        errorElement.textContent = 'Le numéro doit contenir 10 chiffres';
+                        input.classList.add('border-red-500');
+                    }
+                } else {
+                    errorElement.textContent = '';
+                    input.classList.remove('border-red-500');
+                }
+            }
+
+            // Toggle password visibility
+            togglePassword.addEventListener('click', function() {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                togglePassword.innerHTML = type === 'password' ? '<i class="far fa-eye"></i>' : '<i class="far fa-eye-slash"></i>';
+            });
+
+            // Form submission
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const phone = phoneInput.value;
+                const password = passwordInput.value;
+                
+                // Réinitialiser les messages d'erreur
+                errorMessage.classList.add('hidden');
+                errorMessage.textContent = '';
+                
+                // Validation du numéro de téléphone
+                const phoneRegex = /^0[1-8][0-9]{8}$/;
+                if (!phone || !phoneRegex.test(phone)) {
+                    showError("Numéro de téléphone invalide");
+                    return;
+                }
+                
+                if (!password || !password.match(passwordInput.pattern)) {
+                    showError("Mot de passe invalide");
+                    return;
+                }
+                
+                // Si tout est valide, vous pouvez procéder à la connexion
+                // Ici, ajoutez votre logique de connexion
+                alert('Tentative de connexion avec : ' + phone);
+            });
+
+            function showError(message) {
+                errorMessage.textContent = message;
+                errorMessage.classList.remove('hidden');
+                errorMessage.classList.add('shake-animation');
+                setTimeout(() => {
+                    errorMessage.classList.remove('shake-animation');
+                }, 500);
+            }
+        });
+    </script>
+</body>
+</html>

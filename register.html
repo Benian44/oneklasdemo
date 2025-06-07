@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription | OneKlas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .active-tab {
+            @apply bg-blue-600 text-white;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .error-message {
+            @apply text-red-500 text-sm mt-1;
+        }
+        input:invalid {
+            @apply border-red-500;
+        }
+        .phone-prefix {
+            @apply absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500;
+        }
+        .phone-input {
+            @apply pl-12 !important;
+        }
+        .password-strength {
+            height: 5px;
+            transition: all 0.3s ease;
+        }
+        .strength-weak {
+            @apply bg-red-500;
+            width: 33.33%;
+        }
+        .strength-medium {
+            @apply bg-yellow-500;
+            width: 66.66%;
+        }
+        .strength-strong {
+            @apply bg-green-500;
+            width: 100%;
+        }
+        .password-requirements {
+            @apply text-sm text-gray-600 mt-2;
+        }
+        .requirement-met {
+            @apply text-green-600;
+        }
+        .requirement-unmet {
+            @apply text-red-500;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans">
+    <div class="container mx-auto px-4 py-12 max-w-4xl">
+        <div class="text-center mb-10">
+            <div class="w-auto h-20 mx-auto flex items-center justify-center mb-4">
+                <img src="assets/logo.png" alt="OneKlas" class="h-full w-auto" style="object-fit: contain; max-width: 300px;">
+            </div>
+            <p class="text-gray-600">Rejoignez notre plateforme éducative et accédez à des ressources d'apprentissage exceptionnelles</p>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+            <!-- Tabs Navigation -->
+            <div class="flex flex-wrap border-b border-gray-200">
+                <button onclick="changeTab('eleve')" id="eleve-tab" class="flex-1 py-4 px-6 text-center font-medium active-tab transition-colors">
+                    <i class="fas fa-user-graduate mr-2"></i>Élève
+                </button>
+                <button onclick="changeTab('parent')" id="parent-tab" class="flex-1 py-4 px-6 text-center font-medium bg-gray-100 hover:bg-gray-200 transition-colors">
+                    <i class="fas fa-user-friends mr-2"></i>Parent
+                </button>
+                <button onclick="changeTab('enseignant')" id="enseignant-tab" class="flex-1 py-4 px-6 text-center font-medium bg-gray-100 hover:bg-gray-200 transition-colors">
+                    <i class="fas fa-chalkboard-teacher mr-2"></i>Enseignant
+                </button>
+            </div>
+
+            <!-- Tab Contents -->
+            <div class="p-8">
+                <!-- Formulaire Élève -->
+                <form id="eleve-form" class="tab-content active">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-6">Inscription Élève</h2>
+                    
+                    <!-- Informations personnelles -->
+                    <div class="mb-8">
+                        <h3 class="text-lg font-medium text-blue-700 mb-4 border-b pb-2">
+                            <i class="fas fa-id-card mr-2"></i>Informations personnelles
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="eleve-nom" class="block text-sm font-medium text-gray-700 mb-1">Nom*</label>
+                                <input type="text" id="eleve-nom" name="nom" required
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                                <p id="eleve-nom-error" class="error-message"></p>
+                            </div>
+                            <div>
+                                <label for="eleve-prenom" class="block text-sm font-medium text-gray-700 mb-1">Prénom*</label>
+                                <input type="text" id="eleve-prenom" name="prenom" required
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                                <p id="eleve-prenom-error" class="error-message"></p>
+                            </div>
+                            <div>
+                                <label for="eleve-phone" class="block text-sm font-medium text-gray-700 mb-1">Téléphone*</label>
+                                <div class="relative">
+                                    <span class="phone-prefix">+225</span>
+                                    <input type="tel" id="eleve-phone" name="phone" 
+                                           pattern="^0[1-8][0-9]{8}$"
+                                           class="phone-input w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                           required
+                                           maxlength="10"
+                                           onkeyup="validatePhoneNumber(this)">
+                                </div>
+                                <p class="text-xs text-gray-500 mt-1">Format: 0X XX XX XX XX (X = chiffre)</p>
+                                <p id="eleve-phone-error" class="error-message"></p>
+                            </div>
+                            <div>
+                                <label for="eleve-password" class="block text-sm font-medium text-gray-700 mb-1">Mot de passe*</label>
+                                <div class="relative">
+                                    <input type="password" id="eleve-password" name="password" required
+                                           pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                           onkeyup="checkPasswordStrength(this.value, 'eleve')">
+                                    <button type="button" onclick="togglePassword('eleve-password')" class="absolute right-3 top-2 text-gray-500">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <div class="password-strength rounded-full mt-2" id="eleve-password-strength"></div>
+                                <div class="password-requirements" id="eleve-password-requirements">
+                                    <p id="eleve-length" class="requirement-unmet">
+                                        <i class="fas fa-times-circle"></i> Au moins 8 caractères
+                                    </p>
+                                    <p id="eleve-uppercase" class="requirement-unmet">
+                                        <i class="fas fa-times-circle"></i> Au moins une majuscule
+                                    </p>
+                                    <p id="eleve-lowercase" class="requirement-unmet">
+                                        <i class="fas fa-times-circle"></i> Au moins une minuscule
+                                    </p>
+                                    <p id="eleve-number" class="requirement-unmet">
+                                        <i class="fas fa-times-circle"></i> Au moins un chiffre
+                                    </p>
+                                    <p id="eleve-special" class="requirement-unmet">
+                                        <i class="fas fa-times-circle"></i> Au moins un caractère spécial (@$!%*?&)
+                                    </p>
+                                </div>
+                                <p id="eleve-password-error" class="error-message"></p>
+                            </div>
+                            <div>
+                                <label for="eleve-password-confirm" class="block text-sm font-medium text-gray-700 mb-1">Confirmer le mot de passe*</label>
+                                <div class="relative">
+                                    <input type="password" id="eleve-password-confirm" name="password_confirm" required
+                                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                           onkeyup="checkPasswordMatch('eleve')">
+                                    <button type="button" onclick="togglePassword('eleve-password-confirm')" class="absolute right-3 top-2 text-gray-500">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <p id="eleve-password-confirm-error" class="error-message"></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Adresse -->
+                    <div class="mb-8">
+                        <h3 class="text-lg font-medium text-blue-700 mb-4 border-b pb-2">
+                            <i class="fas fa-map-marker-alt mr-2"></i>Adresse
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="eleve-ville" class="block text-sm font-medium text-gray-700 mb-1">Ville*</label>
+                                <select id="eleve-ville" name="ville" required
+                                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="">Sélectionnez une ville</option>
+                                    <option value="Abidjan">Abidjan</option>
+                                    <option value="Bouaké">Bouaké</option>
+                                    <option value="Daloa">Daloa</option>
+                                    <option value="Yamoussoukro">Yamoussoukro</option>
+                                    <option value="San-Pédro">San-Pédro</option>
+                                    <option value="Divo">Divo</option>
+                                    <option value="Korhogo">Korhogo</option>
+                                    <option value="Anyama">Anyama</option>
+                                    <option value="Abengourou">Abengourou</option>
+                                    <option value="Man">Man</option>
+                                    <option value="Autre">Autre</option>
+                                </select>
+                                <p id="eleve-ville-error" class="error-message"></p>
+                            </div>
+                            <div>
+                                <label for="eleve-adresse" class="block text-sm font-medium text-gray-700 mb-1">Adresse complète*</label>
+                                <input type="text" id="eleve-adresse" name="adresse" required
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                                <p id="eleve-adresse-error" class="error-message"></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Niveau scolaire -->
+                    <div>
+                        <h3 class="text-lg font-medium text-blue-700 mb-4 border-b pb-2">
+                            <i class="fas fa-school mr-2"></i>Niveau scolaire
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="eleve-cycle" class="block text-sm font-medium text-gray-700 mb-1">Cycle*</label>
+                                <select id="eleve-cycle" name="cycle" required
+                                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="">Sélectionnez un cycle</option>
+                                    <option value="college">Collège</option>
+                                    <option value="lycee">Lycée</option>
+                                </select>
+                                <p id="eleve-cycle-error" class="error-message"></p>
+                            </div>
+                            <div>
+                                <label for="eleve-classe" class="block text-sm font-medium text-gray-700 mb-1">Classe*</label>
+                                <select id="eleve-classe" name="classe" required disabled
+                                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="">Sélectionnez d'abord un cycle</option>
+                                </select>
+                                <p id="eleve-classe-error" class="error-message"></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-10">
+                        <button type="submit" class="w-full bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 transition-colors">
+                            <i class="fas fa-user-plus mr-2"></i>S'inscrire
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Formulaire Parent -->
+                <form id="parent-form" class="tab-content">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-6">Inscription Parent</h2>
+                    
+                    <!-- Informations personnelles -->
+                    <div class="mb-8">
+                        <h3 class="text-lg font-medium text-blue-700 mb-4 border-b pb-2">
+                            <i class="fas fa-id-card mr-2"></i>Informations personnelles
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="parent-nom" class="block text-sm font-medium text-gray-700 mb-1">Nom*</label>
+                                <input type="text" id="parent-nom" name="nom" required
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                                <p id="parent-nom-error" class="error-message"></p>
+                            </div>
+                            <div>
+                                <label for="parent-prenom" class="block text-sm font-medium text-gray-700 mb-1">Prénom*</label>
+                                <input type="text" id="parent-prenom" name="prenom" required
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                                <p id="parent-prenom-error" class="error-message"></p>
+                            </div>
+                            <div>
+                                <label for="parent-phone" class="block text-sm font-medium text-gray-700 mb-1">Téléphone*</label>
+                                <div class="relative">
+                                    <span class="phone-prefix">+225</span>
+                                    <input type="tel" id="parent-phone" name="phone" 
+                                           pattern="^0[1-8][0-9]{8}$"
+                                           class="phone-input w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                           required
+                                           maxlength="10"
+                                           onkeyup="validatePhoneNumber(this)">
+                                </div>
+                                <p class="text-xs text-gray-500 mt-1">Format: 0X XX XX XX XX (X = chiffre)</p>
+                                <p id="parent-phone-error" class="error-message"></p>
+                            </div>
+                            <div>
+                                <label for="parent-password" class="block text-sm font-medium text-gray-700 mb-1">Mot de passe*</label>
+                                <div class="relative">
+                                    <input type="password" id="parent-password" name="password" required
+                                           pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                           onkeyup="checkPasswordStrength(this.value, 'parent')">
+                                    <button type="button" onclick="togglePassword('parent-password')" class="absolute right-3 top-2 text-gray-500">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <div class="password-strength rounded-full mt-2" id="parent-password-strength"></div>
+                                <div class="password-requirements" id="parent-password-requirements">
+                                    <p id="parent-length" class="requirement-unmet">
+                                        <i class="fas fa-times-circle"></i> Au moins 8 caractères
+                                    </p>
+                                    <p id="parent-uppercase" class="requirement-unmet">
+                                        <i class="fas fa-times-circle"></i> Au moins une majuscule
+                                    </p>
+                                    <p id="parent-lowercase" class="requirement-unmet">
+                                        <i class="fas fa-times-circle"></i> Au moins une minuscule
+                                    </p>
+                                    <p id="parent-number" class="requirement-unmet">
+                                        <i class="fas fa-times-circle"></i> Au moins un chiffre
+                                    </p>
+                                    <p id="parent-special" class="requirement-unmet">
+                                        <i class="fas fa-times-circle"></i> Au moins un caractère spécial (@$!%*?&)
+                                    </p>
+                                </div>
+                                <p id="parent-password-error" class="error-message"></p>
+                            </div>
+                            <div>
+                                <label for="parent-password-confirm" class="block text-sm font-medium text-gray-700 mb-1">Confirmer le mot de passe*</label>
+                                <div class="relative">
+                                    <input type="password" id="parent-password-confirm" name="password_confirm" required
+                                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                           onkeyup="checkPasswordMatch('parent')">
+                                    <button type="button" onclick="togglePassword('parent-password-confirm')" class="absolute right-3 top-2 text-gray-500">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <p id="parent-password-confirm-error" class="error-message"></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Adresse -->
+                    <div class="mb-8">
+                        <h3 class="text-lg font-medium text-blue-700 mb-4 border-b pb-2">
+                            <i class="fas fa-map-marker-alt mr-2"></i>Adresse
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="parent-ville" class="block text-sm font-medium text-gray-700 mb-1">Ville*</label>
+                                <select id="parent-ville" name="ville" required
+                                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="">Sélectionnez une ville</option>
+                                    <option value="Abidjan">Abidjan</option>
+                                    <option value="Bouaké">Bouaké</option>
+                                    <option value="Daloa">Daloa</option>
+                                    <option value="Yamoussoukro">Yamoussoukro</option>
+                                    <option value="San-Pédro">San-Pédro</option>
+                                    <option value="Divo">Divo</option>
+                                    <option value="Korhogo">Korhogo</option>
+                                    <option value="Anyama">Anyama</option>
+                                    <option value="Abengourou">Abengourou</option>
+                                    <option value="Man">Man</option>
+                                    <option value="Autre">Autre</option>
+                                </select>
+                                <p id="parent-ville-error" class="error-message"></p>
+                            </div>
+                            <div>
+                                <label for="parent-adresse" class="block text-sm font-medium text-gray-700 mb-1">Adresse complète*</label>
+                                <input type="text" id="parent-adresse" name="adresse" required
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                                <p id="parent-adresse-error" class="error-message"></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-10">
+                        <button type="submit" class="w-full bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 transition-colors">
+                            <i class="fas fa-user-plus mr-2"></i>S'inscrire
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Formulaire Enseignant -->
+                <form id="enseignant-form" class="tab-content">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-6">Inscription Enseignant</h2>
+                    
+                    <!-- Informations personnelles -->
+                    <div class="mb-8">
+                        <h3 class="text-lg font-medium text-blue-700 mb-4 border-b pb-2">
+                            <i class="fas fa-id-card mr-2"></i>Informations personnelles
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="enseignant-nom" class="block text-sm font-medium text-gray-700 mb-1">Nom*</label>
+                                <input type="text" id="enseignant-nom" name="nom" required
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                                <p id="enseignant-nom-error" class="error-message"></p>
+                            </div>
+                            <div>
+                                <label for="enseignant-prenom" class="block text-sm font-medium text-gray-700 mb-1">Prénom*</label>
+                                <input type="text" id="enseignant-prenom" name="prenom" required
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                                <p id="enseignant-prenom-error" class="error-message"></p>
+                            </div>
+                            <div>
+                                <label for="enseignant-phone" class="block text-sm font-medium text-gray-700 mb-1">Téléphone*</label>
+                                <div class="relative">
+                                    <span class="phone-prefix">+225</span>
+                                    <input type="tel" id="enseignant-phone" name="phone" 
+                                           pattern="^0[1-8][0-9]{8}$"
+                                           class="phone-input w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                           required
+                                           maxlength="10"
+                                           onkeyup="validatePhoneNumber(this)">
+                                </div>
+                                <p class="text-xs text-gray-500 mt-1">Format: 0X XX XX XX XX (X = chiffre)</p>
+                                <p id="enseignant-phone-error" class="error-message"></p>
+                            </div>
+                            <div>
+                                <label for="enseignant-password" class="block text-sm font-medium text-gray-700 mb-1">Mot de passe*</label>
+                                <div class="relative">
+                                    <input type="password" id="enseignant-password" name="password" required
+                                           pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                           onkeyup="checkPasswordStrength(this.value, 'enseignant')">
+                                    <button type="button" onclick="togglePassword('enseignant-password')" class="absolute right-3 top-2 text-gray-500">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <div class="password-strength rounded-full mt-2" id="enseignant-password-strength"></div>
+                                <div class="password-requirements" id="enseignant-password-requirements">
+                                    <p id="enseignant-length" class="requirement-unmet">
+                                        <i class="fas fa-times-circle"></i> Au moins 8 caractères
+                                    </p>
+                                    <p id="enseignant-uppercase" class="requirement-unmet">
+                                        <i class="fas fa-times-circle"></i> Au moins une majuscule
+                                    </p>
+                                    <p id="enseignant-lowercase" class="requirement-unmet">
+                                        <i class="fas fa-times-circle"></i> Au moins une minuscule
+                                    </p>
+                                    <p id="enseignant-number" class="requirement-unmet">
+                                        <i class="fas fa-times-circle"></i> Au moins un chiffre
+                                    </p>
+                                    <p id="enseignant-special" class="requirement-unmet">
+                                        <i class="fas fa-times-circle"></i> Au moins un caractère spécial (@$!%*?&)
+                                    </p>
+                                </div>
+                                <p id="enseignant-password-error" class="error-message"></p>
+                            </div>
+                            <div>
+                                <label for="enseignant-password-confirm" class="block text-sm font-medium text-gray-700 mb-1">Confirmer le mot de passe*</label>
+                                <div class="relative">
+                                    <input type="password" id="enseignant-password-confirm" name="password_confirm" required
+                                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                           onkeyup="checkPasswordMatch('enseignant')">
+                                    <button type="button" onclick="togglePassword('enseignant-password-confirm')" class="absolute right-3 top-2 text-gray-500">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <p id="enseignant-password-confirm-error" class="error-message"></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Adresse -->
+                    <div class="mb-8">
+                        <h3 class="text-lg font-medium text-blue-700 mb-4 border-b pb-2">
+                            <i class="fas fa-map-marker-alt mr-2"></i>Adresse
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="enseignant-ville" class="block text-sm font-medium text-gray-700 mb-1">Ville*</label>
+                                <select id="enseignant-ville" name="ville" required
+                                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="">Sélectionnez une ville</option>
+                                    <option value="Abidjan">Abidjan</option>
+                                    <option value="Bouaké">Bouaké</option>
+                                    <option value="Daloa">Daloa</option>
+                                    <option value="Yamoussoukro">Yamoussoukro</option>
+                                    <option value="San-Pédro">San-Pédro</option>
+                                    <option value="Divo">Divo</option>
+                                    <option value="Korhogo">Korhogo</option>
+                                    <option value="Anyama">Anyama</option>
+                                    <option value="Abengourou">Abengourou</option>
+                                    <option value="Man">Man</option>
+                                    <option value="Autre">Autre</option>
+                                </select>
+                                <p id="enseignant-ville-error" class="error-message"></p>
+                            </div>
+                            <div>
+                                <label for="enseignant-adresse" class="block text-sm font-medium text-gray-700 mb-1">Adresse complète*</label>
+                                <input type="text" id="enseignant-adresse" name="adresse" required
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                                <p id="enseignant-adresse-error" class="error-message"></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Informations professionnelles -->
+                    <div>
+                        <h3 class="text-lg font-medium text-blue-700 mb-4 border-b pb-2">
+                            <i class="fas fa-briefcase mr-2"></i>Informations professionnelles
+                        </h3>
+                        <div>
+                            <label for="enseignant-diplomes" class="block text-sm font-medium text-gray-700 mb-1">Diplômes et certifications*</label>
+                            <textarea id="enseignant-diplomes" name="diplomes" rows="4" required
+                                      class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                      placeholder="Listez vos diplômes et certifications, avec les années d'obtention"></textarea>
+                            <p id="enseignant-diplomes-error" class="error-message"></p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-10">
+                        <button type="submit" class="w-full bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 transition-colors">
+                            <i class="fas fa-user-plus mr-2"></i>S'inscrire
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="text-center mt-8 text-gray-500">
+            <p>Vous avez déjà un compte ? <a href="login.html" class="text-blue-600 hover:underline">Connectez-vous</a></p>
+            <p class="mt-2">
+                <a href="index.html" class="text-blue-600 hover:underline">
+                    <i class="fas fa-arrow-left mr-1"></i>Retour à l'accueil
+                </a>
+            </p>
+        </div>
+
+        <div class="text-center mt-4 text-xs text-gray-500">
+            <p>En vous inscrivant, vous acceptez nos <a href="#" class="text-blue-600 hover:underline">Conditions d'utilisation</a> et notre <a href="#" class="text-blue-600 hover:underline">Politique de confidentialité</a></p>
+        </div>
+    </div>
+
+    <script>
+        // Changement d'onglet
+        function changeTab(tabName) {
+            // Désactiver tous les onglets
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('[id$="-tab"]').forEach(tabBtn => {
+                tabBtn.classList.remove('active-tab');
+                tabBtn.classList.add('bg-gray-100');
+            });
+            
+            // Activer l'onglet sélectionné
+            document.getElementById(`${tabName}-form`).classList.add('active');
+            document.getElementById(`${tabName}-tab`).classList.add('active-tab');
+            document.getElementById(`${tabName}-tab`).classList.remove('bg-gray-100');
+        }
+
+        // Gestion du mot de passe visible/caché
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const button = input.nextElementSibling;
+            if (input.type === 'password') {
+                input.type = 'text';
+                button.innerHTML = '<i class="fas fa-eye-slash"></i>';
+            } else {
+                input.type = 'password';
+                button.innerHTML = '<i class="fas fa-eye"></i>';
+            }
+        }
+
+        // Gestion des classes en fonction du cycle
+        document.getElementById('eleve-cycle').addEventListener('change', function() {
+            const cycle = this.value;
+            const classeSelect = document.getElementById('eleve-classe');
+            
+            classeSelect.innerHTML = '<option value="">Sélectionnez une classe</option>';
+            classeSelect.disabled = !cycle;
+            
+            if (cycle) {
+                let classes = [];
+                if (cycle === 'college') {
+                    classes = ['6ème', '5ème', '4ème', '3ème'];
+                } else if (cycle === 'lycee') {
+                    classes = [
+                        '2nd A', '2nd C', '2nd AB', '2nd G1', '2nd G2',
+                        '1ère A1', '1ère A2', '1ère C', '1ère D', '1ère B', '1ère G1', '1ère G2',
+                        'Tle A1', 'Tle A2', 'Tle B', 'Tle C', 'Tle D', 'Tle G1', 'Tle G2'
+                    ];
+                }
+                
+                classes.forEach(classe => {
+                    const option = document.createElement('option');
+                    option.value = classe.toLowerCase().replace(/[èéê]/g, 'e').replace(/\s+/g, '_');
+                    option.textContent = classe;
+                    classeSelect.appendChild(option);
+                });
+
+                // Ajout d'un groupe optique pour le lycée
+                if (cycle === 'lycee') {
+                    const options = Array.from(classeSelect.options).slice(1); // Ignore la première option (Sélectionnez...)
+                    classeSelect.innerHTML = '<option value="">Sélectionnez une classe</option>';
+                    
+                    // Création des groupes
+                    const secondeGroup = document.createElement('optgroup');
+                    secondeGroup.label = 'Seconde';
+                    const premiereGroup = document.createElement('optgroup');
+                    premiereGroup.label = 'Première';
+                    const terminaleGroup = document.createElement('optgroup');
+                    terminaleGroup.label = 'Terminale';
+
+                    // Distribution des options dans les groupes
+                    options.forEach(option => {
+                        const newOption = option.cloneNode(true);
+                        if (newOption.text.startsWith('2nd')) {
+                            secondeGroup.appendChild(newOption);
+                        } else if (newOption.text.startsWith('1ère')) {
+                            premiereGroup.appendChild(newOption);
+                        } else if (newOption.text.startsWith('Tle')) {
+                            terminaleGroup.appendChild(newOption);
+                        }
+                    });
+
+                    // Ajout des groupes au select
+                    classeSelect.appendChild(secondeGroup);
+                    classeSelect.appendChild(premiereGroup);
+                    classeSelect.appendChild(terminaleGroup);
+                }
+            }
+        });
+
+        // Fonction pour vérifier la force du mot de passe
+        function checkPasswordStrength(password, prefix) {
+            const requirements = {
+                length: password.length >= 8,
+                uppercase: /[A-Z]/.test(password),
+                lowercase: /[a-z]/.test(password),
+                number: /\d/.test(password),
+                special: /[@$!%*?&]/.test(password)
+            };
+
+            // Mettre à jour les indicateurs visuels des exigences
+            Object.keys(requirements).forEach(req => {
+                const element = document.getElementById(`${prefix}-${req}`);
+                if (requirements[req]) {
+                    element.classList.remove('requirement-unmet');
+                    element.classList.add('requirement-met');
+                    element.querySelector('i').classList.remove('fa-times-circle');
+                    element.querySelector('i').classList.add('fa-check-circle');
+                } else {
+                    element.classList.remove('requirement-met');
+                    element.classList.add('requirement-unmet');
+                    element.querySelector('i').classList.remove('fa-check-circle');
+                    element.querySelector('i').classList.add('fa-times-circle');
+                }
+            });
+
+            // Calculer la force du mot de passe
+            const strengthBar = document.getElementById(`${prefix}-password-strength`);
+            const metRequirements = Object.values(requirements).filter(Boolean).length;
+
+            if (metRequirements <= 2) {
+                strengthBar.className = 'password-strength rounded-full strength-weak';
+            } else if (metRequirements <= 4) {
+                strengthBar.className = 'password-strength rounded-full strength-medium';
+            } else {
+                strengthBar.className = 'password-strength rounded-full strength-strong';
+            }
+        }
+
+        // Validation du numéro de téléphone
+        function validatePhoneNumber(input) {
+            const phoneRegex = /^0[1-8][0-9]{8}$/;
+            const errorElement = document.getElementById(`${input.id}-error`);
+            
+            // Permettre uniquement les chiffres
+            input.value = input.value.replace(/[^\d]/g, '');
+            
+            if (input.value.length > 0) {
+                if (!input.value.startsWith('0')) {
+                    errorElement.textContent = 'Le numéro doit commencer par 0';
+                    input.classList.add('border-red-500');
+                } else if (input.value.length > 1 && !['1','2','3','4','5','6','7','8'].includes(input.value[1])) {
+                    errorElement.textContent = 'Le deuxième chiffre doit être entre 1 et 8';
+                    input.classList.add('border-red-500');
+                } else if (input.value.length === 10) {
+                    if (phoneRegex.test(input.value)) {
+                        errorElement.textContent = '';
+                        input.classList.remove('border-red-500');
+                    } else {
+                        errorElement.textContent = 'Numéro de téléphone invalide';
+                        input.classList.add('border-red-500');
+                    }
+                } else if (input.value.length < 10) {
+                    errorElement.textContent = 'Le numéro doit contenir 10 chiffres';
+                    input.classList.add('border-red-500');
+                }
+            } else {
+                errorElement.textContent = '';
+                input.classList.remove('border-red-500');
+            }
+        }
+
+        // Fonction pour vérifier la correspondance des mots de passe
+        function checkPasswordMatch(prefix) {
+            const password = document.getElementById(`${prefix}-password`).value;
+            const confirmPassword = document.getElementById(`${prefix}-password-confirm`).value;
+            const errorElement = document.getElementById(`${prefix}-password-confirm-error`);
+            
+            if (confirmPassword.length > 0) {
+                if (password !== confirmPassword) {
+                    errorElement.textContent = 'Les mots de passe ne correspondent pas';
+                    document.getElementById(`${prefix}-password-confirm`).classList.add('border-red-500');
+                } else {
+                    errorElement.textContent = '';
+                    document.getElementById(`${prefix}-password-confirm`).classList.remove('border-red-500');
+                }
+            } else {
+                errorElement.textContent = '';
+                document.getElementById(`${prefix}-password-confirm`).classList.remove('border-red-500');
+            }
+        }
+
+        // Validation des formulaires (mise à jour)
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Validation simple
+                const inputs = form.querySelectorAll('input[required], select[required], textarea[required]');
+                let isValid = true;
+                
+                inputs.forEach(input => {
+                    const errorId = `${input.id}-error`;
+                    const errorElement = document.getElementById(errorId);
+                    
+                    if (!input.value) {
+                        errorElement.textContent = 'Ce champ est obligatoire';
+                        input.classList.add('border-red-500');
+                        isValid = false;
+                    } else if (input.type === 'password' && input.pattern && !input.value.match(input.pattern)) {
+                        errorElement.textContent = 'Le mot de passe ne respecte pas les critères de sécurité';
+                        input.classList.add('border-red-500');
+                        isValid = false;
+                    } else if (input.type === 'tel' && !input.value.match(input.pattern)) {
+                        errorElement.textContent = 'Numéro de téléphone invalide';
+                        input.classList.add('border-red-500');
+                        isValid = false;
+                    } else if (input.name === 'password_confirm') {
+                        const prefix = input.id.split('-')[0];
+                        const password = document.getElementById(`${prefix}-password`).value;
+                        if (input.value !== password) {
+                            errorElement.textContent = 'Les mots de passe ne correspondent pas';
+                            input.classList.add('border-red-500');
+                            isValid = false;
+                        } else {
+                            errorElement.textContent = '';
+                            input.classList.remove('border-red-500');
+                        }
+                    } else {
+                        errorElement.textContent = '';
+                        input.classList.remove('border-red-500');
+                    }
+                });
+                
+                if (isValid) {
+                    // Ici vous pouvez ajouter l'envoi du formulaire
+                    alert('Formulaire validé avec succès!');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
